@@ -106,15 +106,15 @@ h1{
   <div id="toast" class="toast" role="status" aria-live="polite">Copied!</div>
 <script>
 function goBack() {
-  const referrer = document.referrer;
-  const fallback = "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2";
+  const urlParams = new URLSearchParams(window.location.search);
+  const backURL = urlParams.get("back");
 
-  // If we have a referrer and it's not the same page we're on, go back to it
-  if (referrer && referrer !== window.location.href) {
-    window.location.href = referrer;
+  // If back param exists, use it
+  if (backURL) {
+    window.location.href = backURL;
   } else {
-    // Otherwise go to Canva fallback
-    window.location.href = fallback;
+    // fallback if query not set
+    window.location.href = "https://www.canva.com/design/DAGtoI-rTGs";
   }
 }
 
@@ -134,5 +134,6 @@ function showToast(){
   tid=setTimeout(()=>t.classList.remove('show'), 1200);
 }
 </script>
+
 </body>
 </html>
