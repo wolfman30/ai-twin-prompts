@@ -110,12 +110,12 @@ function goBack() {
   const backURL = "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#6";
 
   // // If back param exists, use it
-  // if (backURL) {
-  //   window.location.href = backURL;
-  // } else {
-  //   // fallback if query not set
-  //   window.location.href = "https://www.canva.com/design/DAGtoI-rTGs";
-  // }
+  if (backURL) {
+    window.location.href = backURL;
+  } else {
+    // fallback if query not set
+    window.location.href = "https://www.canva.com/design/DAGtoI-rTGs";
+  }
 }
 
 function copyIt(){
