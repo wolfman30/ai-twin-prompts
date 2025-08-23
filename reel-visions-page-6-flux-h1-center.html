@@ -80,6 +80,16 @@ h1{
 </style>
 </head>
 <body>
+  <button onclick="goBack()" style="
+  margin-top: 20px;
+  padding: 10px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(168,85,247,.8), rgba(236,72,153,.8));
+  color: #fff;
+  cursor: pointer;">⬅️ Back</button>
+
   <div class="center">
     <h1>My Alien Host - First Contact</h1>
     <section class="card">
@@ -95,6 +105,9 @@ h1{
   </div>
   <div id="toast" class="toast" role="status" aria-live="polite">Copied!</div>
 <script>
+function goBack() {
+  window.history.back();
+}
 function copyIt(){
   const text = document.getElementById('content').innerText;
   navigator.clipboard.writeText(text).then(()=>showToast()).catch(()=>{ 
