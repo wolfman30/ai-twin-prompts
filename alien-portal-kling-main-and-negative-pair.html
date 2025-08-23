@@ -26,59 +26,130 @@ body{
   50%{ background-position: 100% 50%; }
   100%{ background-position: 0% 50%; }
 }
-.center{min-height:100%; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:40px 20px; gap:30px}
+.center{
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding:40px 20px;
+  gap:30px;
+}
 h1{
-  font-size:2.5rem; font-weight:700; margin:0 0 10px;
+  font-size:2.5rem;
+  font-weight:700;
+  margin:0 0 10px;
   color: rgba(15,18,32,.9);
   text-align:center;
 }
 .card{
-  position:relative; width:100%; max-width:760px;
+  position:relative;
+  width:100%;
+  max-width:760px;
   border:1px solid rgba(255,255,255,0.10);
   background: linear-gradient(180deg, var(--glass1), var(--glass2));
-  border-radius:18px; box-shadow:0 20px 60px rgba(0,0,0,.35);
+  border-radius:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
   padding:70px 20px 30px; 
 }
 .header-row{
-  position:absolute; top:20px; left:20px; right:20px;
-  display:flex; align-items:center; justify-content:space-between;
+  position:absolute;
+  top:20px;
+  left:20px;
+  right:20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 .title{
-  font-size:18px; font-weight:600; padding:6px 12px; border-radius:10px;
+  font-size:18px;
+  font-weight:600;
+  padding:6px 12px;
+  border-radius:10px;
   background: linear-gradient(120deg, var(--bg1), var(--bg2), var(--bg1));
   background-size: 320% 320%;
   animation: bgshift 24s ease-in-out infinite;
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 .copy-btn{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:10px 14px; border-radius:12px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:12px;
   border:1px solid rgba(255,255,255,.2);
   background: linear-gradient(135deg, rgba(168,85,247,.35), rgba(236,72,153,.35));
-  color:#fff; cursor:pointer; -webkit-tap-highlight-color:transparent;
+  color:#fff;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
 }
 .copy-btn:active{ transform: translateY(1px); }
 .content{
-  padding:20px 16px 22px; margin:12px 0 0 0;
+  padding:20px 16px 22px;
+  margin:12px 0 0 0;
   background: linear-gradient(180deg, rgba(10,12,20,.9), rgba(14,16,28,.9));
-  border:1px solid rgba(255,255,255,.12); border-radius:14px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace;
-  font-size:16px; white-space:pre-wrap; word-wrap:break-word;
+  font-size:16px;
+  white-space:pre-wrap;
+  word-wrap:break-word;
   text-align:left;
 }
 .toast{
-  position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
-  background:rgba(22,26,44,.9); border:1px solid rgba(255,255,255,.25);
-  color:#fff; padding:10px 14px; border-radius:12px;
-  box-shadow:0 10px 30px rgba(0,0,0,.3); opacity:0; pointer-events:none; transition:opacity .25s ease
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(22,26,44,.9);
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+  padding:10px 14px;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s ease
 }
 .toast.show{ opacity:1 }
-@media (max-width:480px){ .content{font-size:15px} .title{font-size:16px} h1{font-size:1.8rem} }
+
+/* Back Button Custom Style */
+.back-btn {
+  margin-bottom: 20px;
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(15,18,32,0.95), rgba(35,40,70,0.85));
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.1s ease-in-out, background 0.3s ease;
+}
+
+.back-btn:hover {
+  background: linear-gradient(135deg, rgba(35,40,70,0.95), rgba(15,18,32,0.95));
+  transform: translateY(-1px);
+}
+
+.back-btn:active {
+  transform: translateY(1px);
+}
+
+@media (max-width:480px){
+  .content{font-size:15px}
+  .title{font-size:16px}
+  h1{font-size:1.8rem}
+}
 </style>
 </head>
 <body>
   <div class="center">
+    <button class="back-btn" onclick="goBack()">⬅️ Back</button>
     <h1>Alien Portal - Stepping Through the Wormhole</h1>
+
     <section class="card">
       <div class="header-row">
         <div class="title">Kling Prompt</div>
@@ -101,8 +172,15 @@ h1{
       <div id="content2" class="content">cartoony motion, robotic walk, slow motion, jitter, static portal surface, unrealistic closure effect, low detail background, artificial camera movement, stiff upper body, synthetic animation feel, unnatural lighting, flat glow, visual seams</div>
     </section>
   </div>
+
   <div id="toast" class="toast" role="status" aria-live="polite">Copied!</div>
+
 <script>
+function goBack() {
+  const fallbackURL = "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#7";
+  window.location.href = fallbackURL;
+}
+
 function copyIt(id){
   const text = document.getElementById(id).innerText;
   navigator.clipboard.writeText(text).then(()=>showToast()).catch(()=>{ 
@@ -110,8 +188,13 @@ function copyIt(id){
     showToast();
   });
 }
-let tid; function showToast(){
-  const t=document.getElementById('toast'); t.classList.add('show'); clearTimeout(tid); tid=setTimeout(()=>t.classList.remove('show'), 1200);
+
+let tid;
+function showToast(){
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(tid);
+  tid=setTimeout(()=>t.classList.remove('show'), 1200);
 }
 </script>
 </body>
