@@ -106,8 +106,18 @@ h1{
   <div id="toast" class="toast" role="status" aria-live="polite">Copied!</div>
 <script>
 function goBack() {
-  window.history.back();
+  const referrer = document.referrer;
+  const fallback = "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2";
+
+  // If we have a referrer and it's not the same page we're on, go back to it
+  if (referrer && referrer !== window.location.href) {
+    window.location.href = referrer;
+  } else {
+    // Otherwise go to Canva fallback
+    window.location.href = fallback;
+  }
 }
+
 function copyIt(){
   const text = document.getElementById('content').innerText;
   navigator.clipboard.writeText(text).then(()=>showToast()).catch(()=>{ 
@@ -115,8 +125,13 @@ function copyIt(){
     showToast();
   });
 }
-let tid; function showToast(){
-  const t=document.getElementById('toast'); t.classList.add('show'); clearTimeout(tid); tid=setTimeout(()=>t.classList.remove('show'), 1200);
+
+let tid;
+function showToast(){
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(tid);
+  tid=setTimeout(()=>t.classList.remove('show'), 1200);
 }
 </script>
 </body>
