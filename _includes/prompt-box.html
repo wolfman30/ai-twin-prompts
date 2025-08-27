@@ -1,14 +1,12 @@
 <div class="card">
   <div class="header-row">
     <div class="title">{{ include.badge }}</div>
-    <button class="copy-btn" onclick="copyIt('{{ include.field_id }}')" aria-label="Copy {{ include.badge }}">
+    <button class="copy-btn" type="button" onclick="copyIt('{{ include.field_id }}')" aria-label="Copy {{ include.badge }}">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M8 8h12v12H8z" stroke="currentColor" stroke-width="1.5" />
         <path d="M4 4h12v12" stroke="currentColor" stroke-width="1.5" />
       </svg> Copy
     </button>
   </div>
-
-  <!-- Using <pre> preserves author-intended line breaks and spacing -->
-  <pre id="{{ include.field_id }}" class="content" tabindex="0">{{ include.text | strip }}</pre>
+  <textarea id="{{ include.field_id }}" class="content" readonly>{{ include.text | strip }}</textarea>
 </div>
