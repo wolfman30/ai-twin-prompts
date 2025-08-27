@@ -150,18 +150,28 @@ h1{
     <h1>{{ page.title }}</h1>
 
     <!-- Main (Flux or Kling main) -->
+    {%- assign badge_label = page.badge_main -%}
+    {%- if badge_label == nil or badge_label == "" -%}
+      {%- if page.type == "flux" -%}
+        {%- assign badge_label = "Flux Prompt" -%}
+      {%- else -%}
+        {%- assign badge_label = "Kling Prompt" -%}
+      {%- endif -%}
+    {%- endif -%}
+
     {% include prompt-box.html
-      badge = page.badge_main | default: page.type == 'flux' ? 'Flux Prompt' : 'Kling Prompt'
+      badge   = badge_label
       field_id = 'content_main'
-      text = page.prompt
+      text    = page.prompt
     %}
 
     <!-- Negative only for Kling -->
     {% if page.type == 'kling' and page.negative_prompt %}
+      {%- assign neg_badge = page.badge_negative | default: "Kling Negative Prompt" -%}
       {% include prompt-box.html
-        badge = page.badge_negative | default: 'Kling Negative Prompt'
+        badge   = neg_badge
         field_id = 'content_negative'
-        text = page.negative_prompt
+        text    = page.negative_prompt
       %}
       <button class="back-btn" onclick="goBack()">⬅️ Back</button>
     {% endif %}
@@ -171,7 +181,6 @@ h1{
 
 <script>
 function goBack() {
-  // Try history first; fall back to your Canva page per type
   const fallbackMap = {
     kling: "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#7",
     flux:  "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#6"
@@ -180,28 +189,8 @@ function goBack() {
   window.location.href = fallbackMap["{{ page.type }}"] || fallbackMap.flux;
 }
 
-// Copies plain text exactly as shown; uses textContent to avoid HTML tags.
-// <pre> preserves line breaks and spacing reliably across mobile/desktop.
 function copyIt(id){
   const el = document.getElementById(id);
   const text = el ? el.textContent : '';
   if (!text) return;
-  navigator.clipboard.writeText(text).then(showToast).catch(()=>{ 
-    const ta=document.createElement('textarea');
-    ta.value=text; document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); } catch(e) {}
-    document.body.removeChild(ta);
-    showToast();
-  });
-}
-
-let tid;
-function showToast(){
-  const t=document.getElementById('toast');
-  t.classList.add('show');
-  clearTimeout(tid);
-  tid=setTimeout(()=>t.classList.remove('show'), 1200);
-}
-</script>
-</body>
-</html>
+  navigator.clipboard.writeText(text).then(sh
