@@ -1,10 +1,15 @@
+---
+layout: null
+---
+
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Flux Prompt</title>
-<meta name="description" content="Single Flux prompt with copy button."/>
+<title>{{ page.title }}</title>
+<meta name="description" content="{{ page.description | default: 'Prompt with copy button' }}"/>
+
 <style>
 :root{
   --bg1:#a855f7; --bg2:#ec4899;
@@ -26,14 +31,14 @@ body{
   50%{ background-position: 100% 50%; }
   100%{ background-position: 0% 50%; }
 }
-
 .center{
   min-height:100%;
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
-  padding:20px
+  justify-content:{% if page.type == 'kling' %}flex-start{% else %}center{% endif %};
+  padding:{% if page.type == 'kling' %}40px 20px{% else %}20px{% endif %};
+  gap:{% if page.type == 'kling' %}30px{% else %}0{% endif %};
 }
 h1{
   font-size:2.5rem;
@@ -114,7 +119,7 @@ h1{
 }
 .toast.show{ opacity:1 }
 
-/* Back Button Custom Style */
+/* Back Button */
 .back-btn {
   margin-bottom: 20px;
   padding: 10px 18px;
@@ -128,61 +133,109 @@ h1{
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
   transition: transform 0.1s ease-in-out, background 0.3s ease;
 }
-
-.back-btn:hover {
-  background: linear-gradient(135deg, rgba(35,40,70,0.95), rgba(15,18,32,0.95));
-  transform: translateY(-1px);
-}
-
-.back-btn:active {
-  transform: translateY(1px);
-}
+.back-btn:hover { background: linear-gradient(135deg, rgba(35,40,70,0.95), rgba(15,18,32,0.95)); transform: translateY(-1px); }
+.back-btn:active { transform: translateY(1px); }
 
 @media (max-width:480px){
   .content{font-size:15px}
   .title{font-size:16px}
-  h1{font-size:2rem}
+  h1{font-size:{% if page.type == 'kling' %}1.8rem{% else %}2rem{% endif %}}
 }
 </style>
 </head>
 <body>
   <div class="center">
     <button class="back-btn" onclick="goBack()">⬅️ Back</button>
-    <h1>Extraterrestrial Hoverboard</h1>
-    <section class="card">
-      <div class="header-row">
-        <div class="title">Flux Prompt</div>
-        <button class="copy-btn" onclick="copyIt()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-<path d="M8 8h12v12H8z" stroke="currentColor" stroke-width="1.5" />
-<path d="M4 4h12v12" stroke="currentColor" stroke-width="1.5" />
-</svg> Copy</button>
-      </div>
-      <div id="content" class="content"><strong>(your-trigger-word)</strong>, wearing a fitted dark blue T-shirt, steps onto a hovering magenta-translucent alien chariot in the heart of a lush, indigo-drenched rainforest. The vehicle, shaped like a smooth crystalline arc with no visible engines, emits soft pulses of violet light along its underbelly. As soon as he makes contact, the chariot responds by rising a few inches, surrounded by floating glyphs and softly resonating tones. His face lights up with joy and amazement, visible for a moment as the vehicle tilts upward and zips into the violet sky, vanishing between glowing canopy layers with seamless, non-terrestrial motion. Rainforest mist swirls in his wake, and the entire environment radiates a hyper-real, saturated sci-fi palette of teal, indigo, and magenta.</div>
-    </section>
+
+    <h1>{{ page.title }}</h1>
+
+    <!-- Main (Flux or Kling main) -->
+    {%- assign badge_label = page.badge_main -%}
+    {%- if badge_label == nil or badge_label == "" -%}
+      {%- if page.type == "flux" -%}
+        {%- assign badge_label = "Flux Prompt" -%}
+      {%- else -%}
+        {%- assign badge_label = "Kling Prompt" -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    {% include prompt-box.html
+      badge    = badge_label
+      field_id = 'content_main'
+      text     = page.prompt
+    %}
+
+    <!-- Negative only for Kling -->
+    {% if page.type == 'kling' and page.negative_prompt %}
+      {%- assign neg_badge = page.badge_negative | default: "Kling Negative Prompt" -%}
+      {% include prompt-box.html
+        badge    = neg_badge
+        field_id = 'content_negative'
+        text     = page.negative_prompt
+      %}
+      <button class="back-btn" onclick="goBack()">⬅️ Back</button>
+    {% endif %}
   </div>
+
   <div id="toast" class="toast" role="status" aria-live="polite">Copied!</div>
-<script>
-function goBack() {
-  // Hardcoded fallback to the exact shared Canva product page
-  const fallbackURL = "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#8";
-  window.location.href = fallbackURL;
-}
 
-function copyIt(){
-  const text = document.getElementById('content').innerText;
-  navigator.clipboard.writeText(text).then(()=>showToast()).catch(()=>{ 
-    const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-    showToast();
-  });
-}
+  <script>
+  function goBack() {
+    // Optional explicit per-page URL via front matter: back_url: https://...
+    const explicit = "{{ page.back_url | default: '' }}";
+    if (explicit) { window.location.href = explicit; return; }
 
-let tid;
-function showToast(){
-  const t=document.getElementById('toast');
-  t.classList.add('show');
-  clearTimeout(tid);
-  tid=setTimeout(()=>t.classList.remove('show'), 1200);
-}
-</script>
+    // Use history only if there is a real referrer
+    const hasRef = document.referrer && document.referrer !== location.href;
+    if (hasRef) { window.history.back(); return; }
+
+    // Fallback per-type
+    const fallbackMap = {
+      kling: "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#7",
+      flux:  "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#6"
+    };
+    // site.baseurl fallback takes user to project root if type is unknown
+    window.location.href = fallbackMap["{{ page.type }}"] || "{{ site.baseurl }}/";
+  }
+
+  async function copyIt(id){
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    // Prefer .value for <textarea>, fall back to textContent for <div>/<pre>
+    const text = (typeof el.value === "string") ? el.value : (el.textContent || "");
+    if (!text) { showToast("Nothing to copy"); return; }
+
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast("Copied!");
+    } catch (e) {
+      // Fallback for older/locked-down contexts
+      let ta = (el.tagName === "TEXTAREA") ? el : null;
+      if (!ta) {
+        ta = document.createElement("textarea");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        ta.value = text;
+        document.body.appendChild(ta);
+      }
+      ta.focus();
+      ta.select();
+      try { document.execCommand("copy"); } catch(_) {}
+      if (ta !== el) document.body.removeChild(ta);
+      showToast("Copied!");
+    }
+  }
+
+  let tid;
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    if (!t) return;
+    if (msg) t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(tid);
+    tid = setTimeout(()=> t.classList.remove('show'), 1200);
+  }
+  </script>
 </body>
 </html>
