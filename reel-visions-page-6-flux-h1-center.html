@@ -96,6 +96,12 @@ h1{
   white-space:pre-wrap;
   word-wrap:break-word;
   text-align:left;
+  
+  /* Added to improve visibility and size */
+  color: var(--text);      /* ensures white text on dark background */
+  width: 100%;            /* makes textarea fill the card’s width */
+  min-height: 200px;      /* gives enough height to avoid the scrollbar */
+  resize: vertical;       /* optional: allow user to adjust height */
 }
 .toast{
   position:fixed;
