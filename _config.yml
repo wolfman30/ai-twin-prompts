@@ -1,5 +1,8 @@
-title: Reel Visions Prompts
+title: AI Twin Prompts
+url: "https://wolfman30.github.io"
+baseurl: "/ai-twin-prompts"   # because this is a project site
 collections:
   prompts:
     output: true
     permalink: /prompts/:name/
+
