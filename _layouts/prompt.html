@@ -90,7 +90,7 @@ h1{
   -webkit-tap-highlight-color:transparent;
 }
 .copy-btn:active{ transform: translateY(1px); }
-.content{
+.content {
   padding:20px 16px 22px;
   margin:12px 0 0 0;
   background: linear-gradient(180deg, rgba(10,12,20,.9), rgba(14,16,28,.9));
@@ -101,6 +101,11 @@ h1{
   white-space:pre-wrap;
   word-wrap:break-word;
   text-align:left;
+
+  /* ensure prompt text is visible and expand to fill card */
+  color: var(--text);
+  width: 100%;
+  min-height: 200px;
 }
 .toast{
   position:fixed;
