@@ -179,18 +179,63 @@ h1{
 
   <div id="toast" class="toast" role="status" aria-live="polite">Copied!</div>
 
-<script>
-function goBack() {
-  const fallbackMap = {
-    kling: "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#7",
-    flux:  "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#6"
-  };
-  if (window.history.length > 1) { window.history.back(); return; }
-  window.location.href = fallbackMap["{{ page.type }}"] || fallbackMap.flux;
-}
+  <script>
+  function goBack() {
+    // Optional explicit per-page URL via front matter: back_url: https://...
+    const explicit = "{{ page.back_url | default: '' }}";
+    if (explicit) { window.location.href = explicit; return; }
 
-function copyIt(id){
-  const el = document.getElementById(id);
-  const text = el ? el.textContent : '';
-  if (!text) return;
-  navigator.clipboard.writeText(text).then(sh
+    // Use history only if there is a real referrer
+    const hasRef = document.referrer && document.referrer !== location.href;
+    if (hasRef) { window.history.back(); return; }
+
+    // Fallback per-type
+    const fallbackMap = {
+      kling: "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#7",
+      flux:  "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#6"
+    };
+    window.location.href = fallbackMap["{{ page.type }}"] || "{{ site.baseurl }}/";
+  }
+
+  async function copyIt(id){
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    // Prefer .value for <textarea>, fall back to textContent for <div>/<pre>
+    const text = (typeof el.value === "string") ? el.value : (el.textContent || "");
+    if (!text) { showToast("Nothing to copy"); return; }
+
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast("Copied!");
+    } catch (e) {
+      // Fallback for older/locked-down contexts
+      let ta = (el.tagName === "TEXTAREA") ? el : null;
+      if (!ta) {
+        ta = document.createElement("textarea");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        ta.value = text;
+        document.body.appendChild(ta);
+      }
+      ta.focus();
+      ta.select();
+      try { document.execCommand("copy"); } catch(_) {}
+      if (ta !== el) document.body.removeChild(ta);
+      showToast("Copied!");
+    }
+  }
+
+  let tid;
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    if (!t) return;
+    if (msg) t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(tid);
+    tid = setTimeout(()=> t.classList.remove('show'), 1200);
+  }
+  </script>
+</body>
+</html>
+
