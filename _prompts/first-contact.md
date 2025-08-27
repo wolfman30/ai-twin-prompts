@@ -1,0 +1,8 @@
+---
+layout: prompt
+type: flux
+title: My Alien Host - First Contact
+badge_main: Flux Prompt
+prompt: |
+  Beneath violet-lit jungle vines, (your-trigger-word) watches a floating holographic panel glide up from the ground. The scene is hyper-realistic, with lifelike lighting and fog. Pulses of magenta trace across his forehead as he lifts his chin in realization, his face glowing with insight.
+---
