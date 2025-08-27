@@ -1,0 +1,5 @@
+title: Reel Visions Prompts
+collections:
+  prompts:
+    output: true
+    permalink: /prompts/:name/
