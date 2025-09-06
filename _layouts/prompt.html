@@ -190,16 +190,23 @@ h1{
     const explicit = "{{ page.back_url | default: '' }}";
     if (explicit) { window.location.href = explicit; return; }
 
-    // Use history only if there is a real referrer
-    const hasRef = document.referrer && document.referrer !== location.href;
-    if (hasRef) { window.history.back(); return; }
+    // Prefer the original referrer when available.
+    const ref = document.referrer;
+    if (ref && ref !== location.href) {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = ref;
+      }
+      return;
+    }
 
-    // Fallback per-type
-    const fallbackMap = {
-      kling: "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#7",
-      flux:  "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#6"
-    };
-    window.location.href = fallbackMap["{{ page.type }}"] || "{{ site.baseurl }}/";
+    // Fallback to a shared Canva design page.  Only the trailing page
+    // number changes, so we keep the base URL once and append the
+    // per-page number from front matter (e.g. `canva_page: 6`).
+    const canvaBase = "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#";
+    const pageNum = "{{ page.canva_page | default: '' }}";
+    window.location.href = pageNum ? canvaBase + pageNum : "{{ site.baseurl }}/";
   }
 
   async function copyIt(id){
