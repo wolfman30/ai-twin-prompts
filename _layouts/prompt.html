@@ -190,11 +190,10 @@ h1{
     const explicit = "{{ page.back_url | default: '' }}";
     if (explicit) { window.location.href = explicit; return; }
 
-    // Prefer the original referrer when available, but ignore empty
-    // or stripped Canva origins that don't point to the actual design.
+    // Prefer the original referrer when available.
     const ref = document.referrer;
-    const canvaOrigin = "https://www.canva.com";
-    if (ref && ref !== location.href && ref !== canvaOrigin && ref !== canvaOrigin + "/") {
+    if (ref && ref !== location.href) {
+
       if (window.history.length > 1) {
         window.history.back();
       } else {
