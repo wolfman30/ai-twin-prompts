@@ -50,28 +50,25 @@ layout: null
 
   <script>
   function goBack() {
-    // Optional explicit per-page URL via front matter: back_url: https://...
     const explicit = "{{ page.back_url | default: '' }}";
     if (explicit) { window.location.href = explicit; return; }
-
-    // Prefer the original referrer when available.
-    const ref = document.referrer;
-    if (ref && ref !== location.href) {
-      if (window.history.length > 1) {
-        window.history.back();
-      } else {
-        window.location.href = ref;
-      }
-      return;
-    }
-
-    // Fallback to a shared Canva design page.  Only the trailing page
-    // number changes, so we keep the base URL once and append the
-    // per-page number from front matter (e.g. `canva_page: 6`).
+  
     const canvaBase = "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#";
     const pageNum = "{{ page.canva_page | default: '' }}";
-    window.location.href = pageNum ? canvaBase + pageNum : "{{ site.baseurl }}/";
-  }
+    const deepCanva = pageNum ? canvaBase + pageNum : "{{ site.baseurl }}/";
+  
+    const ref = document.referrer || "";
+    const isCanva = /(^https?:\/\/)?([^\/]+\.)?canva\.com(\/|$)/i.test(ref);
+  
+    // If referrer is NOT Canva and we actually have history, use back()
+    if (!isCanva && ref && ref !== location.href && window.history.length > 1) {
+      window.history.back();
+      return;
+    }
+  
+    // Otherwise force our known deep Canva link (keeps the #page)
+    window.location.href = deepCanva;
+}
 
   async function copyIt(id){
     const el = document.getElementById(id);
