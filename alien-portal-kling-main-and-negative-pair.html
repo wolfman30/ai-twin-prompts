@@ -12,7 +12,7 @@
   --glass1: rgba(15,18,32,.9); --glass2: rgba(15,18,32,.7);
 }
 *{box-sizing:border-box}
-html,body{height:100%;margin:0;padding:0}
+html,body{height:100%;margin:0;padding:0;scroll-behavior:smooth}
 body{
   background: linear-gradient(120deg, var(--bg1), var(--bg2), var(--bg1));
   background-size: 320% 320%;
@@ -150,7 +150,7 @@ h1{
     <button class="back-btn" onclick="goBack()">⬅️ Back</button>
     <h1>Alien Portal - Stepping Through the Wormhole</h1>
 
-    <section class="card">
+    <section class="card" id="main">
       <div class="header-row">
         <div class="title">Kling Prompt</div>
         <button class="copy-btn" onclick="copyIt('content1')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -197,6 +197,22 @@ function showToast(){
   clearTimeout(tid);
   tid=setTimeout(()=>t.classList.remove('show'), 1200);
 }
+
+// Deep-link handling for mobile: #main and #negative
+document.addEventListener('DOMContentLoaded', function(){
+  const hash = (location.hash || '').toLowerCase();
+  if (hash === '#negative') {
+    const section = document.getElementById('negative');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const ta = document.getElementById('content2');
+    if (ta && typeof ta.focus === 'function') ta.focus();
+  } else if (hash === '#main') {
+    const section = document.getElementById('main');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const ta = document.getElementById('content1');
+    if (ta && typeof ta.focus === 'function') ta.focus();
+  }
+});
 </script>
 </body>
 </html>

@@ -6,7 +6,7 @@
   --glass1: rgba(15,18,32,.9); --glass2: rgba(15,18,32,.7);
 }
 *{box-sizing:border-box}
-html,body{height:100%;margin:0;padding:0}
+html,body{height:100%;margin:0;padding:0;scroll-behavior:smooth}
 body{
   background: linear-gradient(120deg, var(--bg1), var(--bg2), var(--bg1));
   background-size: 320% 320%;
