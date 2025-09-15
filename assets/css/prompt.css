@@ -130,6 +130,38 @@ h1{
 .back-btn:hover { background: linear-gradient(135deg, rgba(35,40,70,0.95), rgba(15,18,32,0.95)); transform: translateY(-1px); }
 .back-btn:active { transform: translateY(1px); }
 
+/* Prompt Sections */
+.prompt-section {
+  width: 100%;
+  max-width: 760px;
+  scroll-margin-top: 20px; /* Offset for hash navigation */
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced mobile experience */
+@media (max-width: 768px) {
+  .prompt-section {
+    scroll-margin-top: 10px;
+  }
+  
+  .center {
+    padding: 20px 15px;
+  }
+  
+  .card {
+    margin-bottom: 20px;
+  }
+  
+  /* Ensure adequate spacing between sections on mobile */
+  .prompt-section + .prompt-section {
+    margin-top: 25px;
+  }
+}
+
 @media (max-width:480px){
   .content{font-size:15px}
   .title{font-size:16px}

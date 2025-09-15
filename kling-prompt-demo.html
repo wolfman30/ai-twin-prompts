@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kling Prompt Demo - Alien Portal</title>
+<meta name="description" content="Alien Portal - Stepping Through the Wormhole with navigation"/>
+<style>
+:root{
+  --bg1:#a855f7; --bg2:#ec4899;
+  --text:#e6e7ef; --muted:#aeb1c5;
+  --glass1: rgba(15,18,32,.9); --glass2: rgba(15,18,32,.7);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;padding:0}
+html {
+  scroll-behavior: smooth;
+}
+body{
+  background: linear-gradient(120deg, var(--bg1), var(--bg2), var(--bg1));
+  background-size: 320% 320%;
+  animation: bgshift 24s ease-in-out infinite;
+  color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial;
+  line-height:1.6;
+}
+@keyframes bgshift{
+  0%{ background-position: 0% 50%; }
+  50%{ background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
+}
+.center{
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding:40px 20px;
+  gap:30px;
+}
+h1{
+  font-size:2.5rem;
+  font-weight:700;
+  margin:0 0 10px;
+  color: rgba(15,18,32,.9);
+  text-align:center;
+}
+.card{
+  position:relative;
+  width:100%;
+  max-width:760px;
+  border:1px solid rgba(255,255,255,0.10);
+  background: linear-gradient(180deg, var(--glass1), var(--glass2));
+  border-radius:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+  padding:70px 20px 30px; 
+  margin-bottom: 20px;
+}
+.header-row{
+  position:absolute;
+  top:20px;
+  left:20px;
+  right:20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.title{
+  font-size:18px;
+  font-weight:600;
+  padding:6px 12px;
+  border-radius:10px;
+  background: linear-gradient(120deg, var(--bg1), var(--bg2), var(--bg1));
+  background-size: 320% 320%;
+  animation: bgshift 24s ease-in-out infinite;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.copy-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.2);
+  background: linear-gradient(135deg, rgba(168,85,247,.35), rgba(236,72,153,.35));
+  color:#fff;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.copy-btn:active{ transform: translateY(1px); }
+.content{
+  padding:20px 16px 22px;
+  margin:12px 0 0 0;
+  background: linear-gradient(180deg, rgba(10,12,20,.9), rgba(14,16,28,.9));
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace;
+  font-size:16px;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+  text-align:left;
+  color: var(--text);
+  width: 100%;
+  min-height: 200px;
+  resize: none;
+}
+.toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(22,26,44,.9);
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+  padding:10px 14px;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s ease
+}
+.toast.show{ opacity:1 }
+
+.back-btn {
+  margin-bottom: 20px;
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(15,18,32,0.95), rgba(35,40,70,0.85));
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.1s ease-in-out, background 0.3s ease;
+}
+.back-btn:hover { 
+  background: linear-gradient(135deg, rgba(35,40,70,0.95), rgba(15,18,32,0.95)); 
+  transform: translateY(-1px); 
+}
+.back-btn:active { transform: translateY(1px); }
+
+.prompt-section {
+  width: 100%;
+  max-width: 760px;
+  scroll-margin-top: 20px;
+}
+
+.demo-links {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.demo-link {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, rgba(168,85,247,.5), rgba(236,72,153,.5));
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.demo-link:hover {
+  background: linear-gradient(135deg, rgba(168,85,247,.7), rgba(236,72,153,.7));
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .prompt-section {
+    scroll-margin-top: 10px;
+  }
+  
+  .center {
+    padding: 20px 15px;
+  }
+  
+  .prompt-section + .prompt-section {
+    margin-top: 25px;
+  }
+}
+
+@media (max-width:480px){
+  .content{font-size:15px}
+  .title{font-size:16px}
+  h1{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+  <div class="center">
+    <button class="back-btn" onclick="goBack()">⬅️ Back</button>
+
+    <h1>Alien Portal - Stepping Through the Wormhole</h1>
+    
+    <!-- Demo Navigation Links -->
+    <div class="demo-links">
+      <a href="#main-prompt" class="demo-link">Go to Main Prompt</a>
+      <a href="#negative-prompt" class="demo-link">Go to Negative Prompt</a>
+    </div>
+
+    <!-- Main Kling Prompt Section -->
+    <section id="main-prompt" class="prompt-section">
+      <div class="card">
+        <div class="header-row">
+          <div class="title">Kling Prompt</div>
+          <button class="copy-btn" onclick="copyIt('content_main')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M8 8h12v12H8z" stroke="currentColor" stroke-width="1.5" />
+              <path d="M4 4h12v12" stroke="currentColor" stroke-width="1.5" />
+            </svg> Copy
+          </button>
+        </div>
+        <textarea id="content_main" class="content" readonly>The man stands in front of a shimmering magenta wormhole embedded in a glowing jungle wall at twilight. The scene feels natural, like real-life footage captured on an iPhone Pro Max 16, with cinematic ambient fog, soft atmospheric lighting, and grounded color tones. The portal pulses gently with concentric alien energy rings, radiating light and subtle motion, like sentient technology in standby mode. The man pauses briefly, glancing at the swirling energy. His breath is visible as he hesitates for a second, expression flickering with awe and uncertainty. Then, sensing urgency, he quickly walks forward with a smooth, natural stride—fluid and purposeful, as if he knows it might vanish. As his hand breaks the portal's surface, it ripples with soft liquid light. Once he's through, the wormhole visibly reacts: the energy rings contract inward and collapse smoothly into a glowing seam that seals itself with a final pulse, as if locking the exit. The camera tracks naturally behind him—handheld style—as he steps onto an alien coastline at dusk, greeted by luminous terrain, twin crescent moons, and distant rock spires. He gazes around, visibly amazed. His body language subtly shifts—more upright, confident—as if the alien tech is beginning to influence him. Natural and realistic motion throughout, photoreal quality, captured like real-world video.</textarea>
+      </div>
+    </section>
+
+    <!-- Negative Prompt Section -->
+    <section id="negative-prompt" class="prompt-section">
+      <div class="card">
+        <div class="header-row">
+          <div class="title">Kling Negative Prompt</div>
+          <button class="copy-btn" onclick="copyIt('content_negative')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M8 8h12v12H8z" stroke="currentColor" stroke-width="1.5" />
+              <path d="M4 4h12v12" stroke="currentColor" stroke-width="1.5" />
+            </svg> Copy
+          </button>
+        </div>
+        <textarea id="content_negative" class="content" readonly>cartoony motion, robotic walk, slow motion, jitter, static portal surface, unrealistic closure effect, low detail background, artificial camera movement, stiff upper body, synthetic animation feel, unnatural lighting, flat glow, visual seams</textarea>
+      </div>
+    </section>
+
+    <button class="back-btn" onclick="goBack()">⬅️ Back</button>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">Copied!</div>
+
+<script>
+// Handle URL hash navigation on page load
+document.addEventListener('DOMContentLoaded', function() {
+  handleHashNavigation();
+});
+
+// Handle hash changes (back/forward navigation)
+window.addEventListener('hashchange', function() {
+  handleHashNavigation();
+});
+
+function handleHashNavigation() {
+  const hash = window.location.hash;
+  if (hash === '#negative-prompt' || hash === '#negative') {
+    scrollToSection('negative-prompt');
+  } else if (hash === '#main-prompt' || hash === '#main') {
+    scrollToSection('main-prompt');
+  }
+}
+
+function scrollToSection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (section) {
+    // Smooth scroll to the section with some offset for mobile
+    const yOffset = -20; // Small offset from top
+    const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    
+    window.scrollTo({
+      top: y,
+      behavior: 'smooth'
+    });
+  }
+}
+
+function goBack() {
+  // For demo purposes, go to Canva or back in history
+  const canvaBase = "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#7";
+  
+  const ref = document.referrer || "";
+  const isCanva = /(^https?:\/\/)?([^\/]+\.)?canva\.com(\/|$)/i.test(ref);
+  
+  // If referrer is NOT Canva and we actually have history, use back()
+  if (!isCanva && ref && ref !== location.href && window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  
+  // Otherwise go to Canva
+  window.location.href = canvaBase;
+}
+
+async function copyIt(id){
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  // Prefer .value for <textarea>, fall back to textContent for <div>/<pre>
+  const text = (typeof el.value === "string") ? el.value : (el.textContent || "");
+  if (!text) { showToast("Nothing to copy"); return; }
+
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast("Copied!");
+  } catch (e) {
+    // Fallback for older/locked-down contexts
+    let ta = (el.tagName === "TEXTAREA") ? el : null;
+    if (!ta) {
+      ta = document.createElement("textarea");
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      ta.value = text;
+      document.body.appendChild(ta);
+    }
+    ta.focus();
+    ta.select();
+    try { document.execCommand("copy"); } catch(_) {}
+    if (ta !== el) document.body.removeChild(ta);
+    showToast("Copied!");
+  }
+}
+
+let tid;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  if (!t) return;
+  if (msg) t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(tid);
+  tid = setTimeout(()=> t.classList.remove('show'), 1200);
+}
+</script>
+</body>
+</html>
