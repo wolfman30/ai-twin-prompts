@@ -28,20 +28,24 @@ layout: null
       {%- endif -%}
     {%- endif -%}
 
-    {% include prompt-box.html
-      badge   = badge_label
-      field_id = 'content_main'
-      text    = page.prompt
-    %}
+    <section id="main-prompt" class="prompt-section">
+      {% include prompt-box.html
+        badge   = badge_label
+        field_id = 'content_main'
+        text    = page.prompt
+      %}
+    </section>
 
     <!-- Negative only for Kling -->
     {% if page.type == 'kling' and page.negative_prompt %}
       {%- assign neg_badge = page.badge_negative | default: "Kling Negative Prompt" -%}
-      {% include prompt-box.html
-        badge   = neg_badge
-        field_id = 'content_negative'
-        text    = page.negative_prompt
-      %}
+      <section id="negative-prompt" class="prompt-section">
+        {% include prompt-box.html
+          badge   = neg_badge
+          field_id = 'content_negative'
+          text    = page.negative_prompt
+        %}
+      </section>
       <button class="back-btn" onclick="goBack()">⬅️ Back</button>
     {% endif %}
   </div>
@@ -49,6 +53,39 @@ layout: null
   <div id="toast" class="toast" role="status" aria-live="polite">Copied!</div>
 
   <script>
+  // Handle URL hash navigation on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    handleHashNavigation();
+  });
+
+  // Handle hash changes (back/forward navigation)
+  window.addEventListener('hashchange', function() {
+    handleHashNavigation();
+  });
+
+  function handleHashNavigation() {
+    const hash = window.location.hash;
+    if (hash === '#negative-prompt' || hash === '#negative') {
+      scrollToSection('negative-prompt');
+    } else if (hash === '#main-prompt' || hash === '#main') {
+      scrollToSection('main-prompt');
+    }
+  }
+
+  function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      // Smooth scroll to the section with some offset for mobile
+      const yOffset = -20; // Small offset from top
+      const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth'
+      });
+    }
+  }
+
   function goBack() {
     const explicit = "{{ page.back_url | default: '' }}";
     if (explicit) { window.location.href = explicit; return; }
