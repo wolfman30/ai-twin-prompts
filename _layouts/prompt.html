@@ -28,20 +28,24 @@ layout: null
       {%- endif -%}
     {%- endif -%}
 
-    {% include prompt-box.html
-      badge   = badge_label
-      field_id = 'content_main'
-      text    = page.prompt
-    %}
+    <section id="main" tabindex="-1">
+      {% include prompt-box.html
+        badge   = badge_label
+        field_id = 'content_main'
+        text    = page.prompt
+      %}
+    </section>
 
     <!-- Negative only for Kling -->
     {% if page.type == 'kling' and page.negative_prompt %}
-      {%- assign neg_badge = page.badge_negative | default: "Kling Negative Prompt" -%}
-      {% include prompt-box.html
-        badge   = neg_badge
-        field_id = 'content_negative'
-        text    = page.negative_prompt
-      %}
+      <section id="negative" tabindex="-1">
+        {%- assign neg_badge = page.badge_negative | default: "Kling Negative Prompt" -%}
+        {% include prompt-box.html
+          badge   = neg_badge
+          field_id = 'content_negative'
+          text    = page.negative_prompt
+        %}
+      </section>
       <button class="back-btn" onclick="goBack()">⬅️ Back</button>
     {% endif %}
   </div>
@@ -108,6 +112,22 @@ layout: null
     clearTimeout(tid);
     tid = setTimeout(()=> t.classList.remove('show'), 1200);
   }
+
+  // Deep-link handling for mobile: #main and #negative
+  document.addEventListener('DOMContentLoaded', function(){
+    const hash = (location.hash || '').toLowerCase();
+    if (hash === '#negative') {
+      const section = document.getElementById('negative');
+      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const ta = document.getElementById('content_negative');
+      if (ta && typeof ta.focus === 'function') ta.focus();
+    } else if (hash === '#main') {
+      const section = document.getElementById('main');
+      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const ta = document.getElementById('content_main');
+      if (ta && typeof ta.focus === 'function') ta.focus();
+    }
+  });
   </script>
 </body>
 </html>
