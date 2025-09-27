@@ -47,7 +47,7 @@ function initTriggerWord() {
   if (!input || !textarea || !template) return;
 
   const token = trigger.token || "(your-trigger-word)";
-  const placeholder = trigger.placeholder || "your trigger word";
+  const placeholder = trigger.placeholder || "give your trigger word";
 
   const applyValue = () => {
     const entry = input.value.trim();
@@ -57,30 +57,20 @@ function initTriggerWord() {
   };
 
   input.addEventListener("input", applyValue);
+  input._applyTriggerToPrompt = applyValue;
+  input._targetPromptField = mainFieldId;
+
   applyValue();
 }
 
-function fallbackCopyTriggerWord(inputEl) {
-  if (!inputEl) return;
-
-  inputEl.focus();
-  inputEl.select();
-  let copied = false;
-  try {
-    copied = document.execCommand("copy");
-  } catch (_) {
-    copied = false;
-  }
-
-  showToast(copied ? "Trigger word copied!" : "Copy failed");
-
-  const len = inputEl.value.length;
-  inputEl.setSelectionRange(len, len);
-}
-
-function copyTriggerWord(inputId) {
+function copyPromptWithTrigger(inputId, fieldId) {
+  const cfg = window.promptPageConfig || {};
   const input = document.getElementById(inputId);
   if (!input) return;
+
+  const mainFieldId = fieldId || input._targetPromptField || cfg.mainFieldId || "content_main";
+  const textarea = document.getElementById(mainFieldId);
+  if (!textarea) return;
 
   const value = input.value.trim();
   if (!value) {
@@ -91,16 +81,22 @@ function copyTriggerWord(inputId) {
 
   if (value !== input.value) {
     input.value = value;
-    input.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(value)
-      .then(() => showToast("Trigger word copied!"))
-      .catch(() => fallbackCopyTriggerWord(input));
+  if (typeof input._applyTriggerToPrompt === "function") {
+    input._applyTriggerToPrompt();
   } else {
-    fallbackCopyTriggerWord(input);
+    const template = cfg.promptTemplate || "";
+    const trigger = cfg.triggerConfig || {};
+    const token = trigger.token || "(your-trigger-word)";
+    const placeholder = trigger.placeholder || "give your trigger word";
+    if (template) {
+      const replacement = value || placeholder;
+      textarea.value = template.split(token).join(replacement);
+    }
   }
+
+  copyIt(mainFieldId);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
