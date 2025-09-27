@@ -1,6 +1,9 @@
 function goBack() {
   const explicit = "{{ page.back_url | default: '' }}";
-  if (explicit) { window.location.href = explicit; return; }
+  if (explicit) { 
+    window.location.href = explicit; 
+    return; 
+  }
 
   const canvaBase = "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#";
   const pageNum = "{{ page.canva_page | default: '' }}";
@@ -11,10 +14,10 @@ function goBack() {
 
   if (!isCanva && ref && ref !== location.href && window.history.length > 1) {
     window.history.back();
-    return;
+  } else {
+    // Ensure a reliable fallback URL
+    window.location.href = deepCanva;
   }
-
-  window.location.href = deepCanva;
 }
 
 async function copyIt(id) {
