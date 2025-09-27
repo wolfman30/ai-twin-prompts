@@ -70,7 +70,6 @@ function copyPromptWithTrigger(inputId, fieldId) {
 
   const mainFieldId = fieldId || input._targetPromptField || cfg.mainFieldId || "content_main";
   const textarea = document.getElementById(mainFieldId);
-  if (!textarea) return;
 
   const value = input.value.trim();
   if (!value) {
@@ -83,20 +82,29 @@ function copyPromptWithTrigger(inputId, fieldId) {
     input.value = value;
   }
 
-  if (typeof input._applyTriggerToPrompt === "function") {
-    input._applyTriggerToPrompt();
-  } else {
-    const template = cfg.promptTemplate || "";
-    const trigger = cfg.triggerConfig || {};
-    const token = trigger.token || "(your-trigger-word)";
-    const placeholder = trigger.placeholder || "give your trigger word";
-    if (template) {
-      const replacement = value || placeholder;
-      textarea.value = template.split(token).join(replacement);
-    }
+  const template = cfg.promptTemplate || "";
+  const trigger = cfg.triggerConfig || {};
+  const token = trigger.token || "(your-trigger-word)";
+  const placeholder = trigger.placeholder || "give your trigger word";
+
+  let finalPrompt = "";
+  if (template) {
+    const replacement = value || placeholder;
+    finalPrompt = template.split(token).join(replacement);
+  } else if (textarea) {
+    finalPrompt = textarea.value || "";
   }
 
-  copyIt(mainFieldId);
+  if (!finalPrompt.trim()) {
+    showToast("Nothing to copy");
+    return;
+  }
+
+  if (textarea && textarea.value !== finalPrompt) {
+    textarea.value = finalPrompt;
+  }
+
+  copyTextContent(finalPrompt, "Prompt copied!");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -129,31 +137,48 @@ function goBack() {
   window.location.href = fallback;
 }
 
-async function copyIt(id) {
+function copyTextContent(text, successMessage) {
+  const msg = successMessage || "Copied!";
+  if (!text) {
+    showToast("Nothing to copy");
+    return;
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text)
+      .then(() => showToast(msg))
+      .catch(() => fallbackCopyText(text, msg));
+  } else {
+    fallbackCopyText(text, msg);
+  }
+}
+
+function fallbackCopyText(text, successMessage) {
+  const ta = document.createElement("textarea");
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+
+  let ok = false;
+  try {
+    ok = document.execCommand("copy");
+  } catch (_) {
+    ok = false;
+  }
+
+  document.body.removeChild(ta);
+  showToast(ok ? successMessage : "Copy failed");
+}
+
+function copyIt(id) {
   const el = document.getElementById(id);
   if (!el) return;
 
   const text = (typeof el.value === "string") ? el.value : (el.textContent || "");
-  if (!text) { showToast("Nothing to copy"); return; }
-
-  try {
-    await navigator.clipboard.writeText(text);
-    showToast("Copied!");
-  } catch (e) {
-    let ta = (el.tagName === "TEXTAREA") ? el : null;
-    if (!ta) {
-      ta = document.createElement("textarea");
-      ta.style.position = "fixed";
-      ta.style.opacity = "0";
-      ta.value = text;
-      document.body.appendChild(ta);
-    }
-    ta.focus();
-    ta.select();
-    try { document.execCommand("copy"); } catch(_) {}
-    if (ta !== el) document.body.removeChild(ta);
-    showToast("Copied!");
-  }
+  copyTextContent(text, "Copied!");
 }
 
 let tid;
