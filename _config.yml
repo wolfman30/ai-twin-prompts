@@ -3,7 +3,8 @@ baseurl: "/ai-twin-prompts"   # because this is a project site
 collections:
   prompts:
     output: true
-    permalink: /prompts/:name/
+    permalink: /prompts/:path/
 
+# permalink uses :path so subfolders like flux/ and kling/ generate
+# distinct URLs e.g. /prompts/flux/first-contact/
 # https://wolfman30.github.io/ai-twin-prompts/prompts/
-
