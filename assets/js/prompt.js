@@ -1,23 +1,26 @@
 function goBack() {
-  const explicit = "{{ page.back_url | default: '' }}";
-  if (explicit) { 
-    window.location.href = explicit; 
-    return; 
+  const cfg = window.promptPageConfig || {};
+
+  const explicit = cfg.backUrl || "";
+  if (explicit) {
+    window.location.href = explicit;
+    return;
   }
 
   const canvaBase = "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#";
-  const pageNum = "{{ page.canva_page | default: '' }}";
-  const deepCanva = pageNum ? canvaBase + pageNum : "{{ site.baseurl }}/";
+  const pageNum = cfg.canvaPage || "";
+  const siteBase = cfg.siteBase || "/";
 
   const ref = document.referrer || "";
   const isCanva = /(^https?:\/\/)?([^\/]+\.)?canva\.com(\/|$)/i.test(ref);
 
   if (!isCanva && ref && ref !== location.href && window.history.length > 1) {
     window.history.back();
-    return; 
-  }     
-  window.location.href = deepCanva;
-  
+    return;
+  }
+
+  const fallback = pageNum ? canvaBase + pageNum : siteBase;
+  window.location.href = fallback;
 }
 
 async function copyIt(id) {

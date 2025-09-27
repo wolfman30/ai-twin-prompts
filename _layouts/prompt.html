@@ -48,6 +48,21 @@ layout: null
 
   <div id="toast" class="toast" role="status" aria-live="assertive">Copied!</div>
 
+  {%- assign __baseurl = site.baseurl | default: '' -%}
+  {%- if __baseurl == '' -%}
+    {%- assign __baseurl_with_slash = '/' -%}
+  {%- else -%}
+    {%- assign __baseurl_with_slash = __baseurl | append: '/' -%}
+  {%- endif -%}
+
+  <script>
+    window.promptPageConfig = {
+      backUrl: {{ page.back_url | default: '' | jsonify }},
+      canvaPage: {{ page.canva_page | default: '' | jsonify }},
+      siteBase: {{ __baseurl_with_slash | jsonify }},
+      type: {{ page.type | default: '' | jsonify }}
+    };
+  </script>
   <script src="{{ '/assets/js/prompt.js' | relative_url }}"></script>
 </body>
 </html>
