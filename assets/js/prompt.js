@@ -1,5 +1,5 @@
 function goBack() {
-  const body = document.body;
+  const {body} = document;
   const explicit = body.dataset.backUrl || '';
   if (explicit) { window.location.href = explicit; return; }
 
