@@ -8,15 +8,31 @@ layout: null
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>{{ page.title }}</title>
-<meta name="description" content="{{ page.description | default: 'Prompt with copy button' }}"/>
+<meta name="description" content="{{ page.description | default: '' }}"/>
 
-<link rel="stylesheet" href="{{ '/assets/css/prompt.css' | relative_url }}">
+<link rel="stylesheet" href="{{ "/assets/css/prompt.css" | relative_url }}">
 </head>
 <body>
   <div class="center">
-    <button class="back-btn" onclick="goBack()">Go Back</button>
+    <button class="back-btn" onclick="goBack()">Back</button>
 
     <h1>{{ page.title }}</h1>
+
+    {% assign __trigger = page.trigger_field %}
+    {% if __trigger %}
+      {% assign __trigger_id = __trigger.id | default: "trigger-word-input" %}
+      {% assign __trigger_label = __trigger.label | default: "Trigger Word" %}
+      {% assign __trigger_placeholder = __trigger.placeholder | default: "your trigger word" %}
+      {% assign __trigger_copy_label = __trigger.copy_label | default: "Copy Word" %}
+      {% assign __trigger_token = __trigger.token | default: "(your-trigger-word)" %}
+      <div class="trigger-card">
+        <label class="trigger-label" for="{{ __trigger_id }}">{{ __trigger_label }}</label>
+        <div class="trigger-controls">
+          <input class="trigger-input-field" id="{{ __trigger_id }}" type="text" placeholder="{{ __trigger_placeholder }}" autocomplete="off" />
+          <button class="copy-btn trigger-copy" type="button" onclick="copyTriggerWord('{{ __trigger_id }}')">{{ __trigger_copy_label }}</button>
+        </div>
+      </div>
+    {% endif %}
 
     <!-- Main (Flux or Kling main) -->
     {%- assign badge_label = page.badge_main -%}
@@ -44,7 +60,7 @@ layout: null
         text       = page.negative_prompt
         section_id = 'prompt-negative'
       %}
-      <button class="back-btn" onclick="goBack()">Go Back</button>
+      <button class="back-btn" onclick="goBack()">Back</button>
     {% endif %}
   </div>
 
@@ -57,12 +73,19 @@ layout: null
     {%- assign __baseurl_with_slash = __baseurl | append: '/' -%}
   {%- endif -%}
 
+  {%- if __trigger -%}
+    {%- capture __trigger_config -%}{"id":{{ __trigger_id | jsonify }},"placeholder":{{ __trigger_placeholder | jsonify }},"token":{{ __trigger_token | jsonify }}}{%- endcapture -%}
+  {%- endif -%}
+
   <script>
     window.promptPageConfig = {
       backUrl: {{ page.back_url | default: '' | jsonify }},
       canvaPage: {{ page.canva_page | default: '' | jsonify }},
       siteBase: {{ __baseurl_with_slash | jsonify }},
-      type: {{ page.type | default: '' | jsonify }}
+      type: {{ page.type | default: '' | jsonify }},
+      mainFieldId: 'content_main',
+      promptTemplate: {{ page.prompt | default: '' | jsonify }},
+      triggerConfig: {% if __trigger %}{{ __trigger_config | strip_newlines }}{% else %}null{% endif %}
     };
   </script>
   <script src="{{ '/assets/js/prompt.js' | relative_url }}"></script>

@@ -21,7 +21,7 @@ function resolveTargetSectionId() {
   return null;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function focusTargetSection() {
   const sectionId = resolveTargetSectionId();
   if (!sectionId) return;
 
@@ -31,7 +31,83 @@ document.addEventListener("DOMContentLoaded", () => {
   requestAnimationFrame(() => {
     sectionEl.scrollIntoView({ behavior: "auto", block: "start" });
   });
+}
+
+function initTriggerWord() {
+  const cfg = window.promptPageConfig || {};
+  const trigger = cfg.triggerConfig || null;
+  if (!trigger) return;
+
+  const template = cfg.promptTemplate || "";
+  const mainFieldId = cfg.mainFieldId || "content_main";
+  const triggerId = trigger.id || "trigger-word-input";
+
+  const input = document.getElementById(triggerId);
+  const textarea = document.getElementById(mainFieldId);
+  if (!input || !textarea || !template) return;
+
+  const token = trigger.token || "(your-trigger-word)";
+  const placeholder = trigger.placeholder || "your trigger word";
+
+  const applyValue = () => {
+    const entry = input.value.trim();
+    const replacement = entry || placeholder;
+    const updated = template.split(token).join(replacement);
+    textarea.value = updated;
+  };
+
+  input.addEventListener("input", applyValue);
+  applyValue();
+}
+
+function fallbackCopyTriggerWord(inputEl) {
+  if (!inputEl) return;
+
+  inputEl.focus();
+  inputEl.select();
+  let copied = false;
+  try {
+    copied = document.execCommand("copy");
+  } catch (_) {
+    copied = false;
+  }
+
+  showToast(copied ? "Trigger word copied!" : "Copy failed");
+
+  const len = inputEl.value.length;
+  inputEl.setSelectionRange(len, len);
+}
+
+function copyTriggerWord(inputId) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+
+  const value = input.value.trim();
+  if (!value) {
+    showToast("Enter a trigger word first");
+    input.focus();
+    return;
+  }
+
+  if (value !== input.value) {
+    input.value = value;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(value)
+      .then(() => showToast("Trigger word copied!"))
+      .catch(() => fallbackCopyTriggerWord(input));
+  } else {
+    fallbackCopyTriggerWord(input);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  focusTargetSection();
+  initTriggerWord();
 });
+
 function goBack() {
   const cfg = window.promptPageConfig || {};
 
@@ -93,4 +169,3 @@ function showToast(msg) {
   clearTimeout(tid);
   tid = setTimeout(() => t.classList.remove('show'), 1200);
 }
-

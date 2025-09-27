@@ -45,10 +45,51 @@ h1{
   border-radius:18px;
   box-shadow:0 20px 60px rgba(0,0,0,.35);
   padding:70px 20px 30px;
-  margin: 20px;
+  margin:20px;
 }
 .card + .card{
-  margin-top: 40px;
+  margin-top:40px;
+}
+.trigger-card{
+  width:100%;
+  max-width:760px;
+  border:1px solid rgba(255,255,255,0.10);
+  background: linear-gradient(180deg, rgba(15,18,32,.85), rgba(15,18,32,.65));
+  border-radius:16px;
+  box-shadow:0 12px 40px rgba(0,0,0,.25);
+  padding:24px 20px 28px;
+  margin:0 20px 10px;
+}
+.trigger-label{
+  display:block;
+  font-size:16px;
+  font-weight:600;
+  margin-bottom:12px;
+  color:var(--text);
+}
+.trigger-controls{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.trigger-input-field{
+  flex:1;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.18);
+  background:rgba(10,12,20,.85);
+  color:var(--text);
+  font-size:16px;
+  font-family:inherit;
+}
+.trigger-input-field::placeholder{ color:var(--muted); }
+.trigger-input-field:focus{
+  outline:none;
+  border-color:rgba(236,72,153,.5);
+  box-shadow:0 0 0 2px rgba(236,72,153,.25);
+}
+.trigger-copy{
+  padding:12px 18px;
 }
 .header-row{
   position:absolute;
@@ -138,5 +179,7 @@ h1{
   .content{font-size:15px}
   .title{font-size:16px}
   h1{font-size:{% if page.type == 'kling' %}1.8rem{% else %}2rem{% endif %}}
+  .trigger-controls{flex-direction:column;align-items:stretch}
+  .trigger-copy{width:100%}
 }
 
