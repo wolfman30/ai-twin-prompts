@@ -23,6 +23,7 @@ layout: null
       {% assign __trigger_id = __trigger.id | default: "trigger-word-input" %}
       {% assign __trigger_label = __trigger.label | default: "Trigger Word" %}
       {% assign __trigger_placeholder = __trigger.placeholder | default: "give your trigger word" %}
+      {% assign __trigger_default = __trigger.default | default: __trigger.default_value | default: __trigger_placeholder %}
       {% assign __trigger_copy_label = __trigger.copy_label | default: "Copy Prompt" %}
       {% assign __trigger_token = __trigger.token | default: "(your-trigger-word)" %}
       <div class="trigger-card">
@@ -74,7 +75,7 @@ layout: null
   {%- endif -%}
 
   {%- if __trigger -%}
-    {%- capture __trigger_config -%}{"id":{{ __trigger_id | jsonify }},"placeholder":{{ __trigger_placeholder | jsonify }},"token":{{ __trigger_token | jsonify }}}{%- endcapture -%}
+    {%- capture __trigger_config -%}{"id":{{ __trigger_id | jsonify }},"placeholder":{{ __trigger_placeholder | jsonify }},"token":{{ __trigger_token | jsonify }},"defaultValue":{{ __trigger_default | jsonify }}}{%- endcapture -%}
   {%- endif -%}
 
   <script>
@@ -91,6 +92,7 @@ layout: null
   <script src="{{ '/assets/js/prompt.js' | relative_url }}"></script>
 </body>
 </html>
+
 
 
 

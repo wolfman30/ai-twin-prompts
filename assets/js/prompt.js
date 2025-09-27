@@ -31,22 +31,23 @@ function focusTargetSection() {
   const margin = 32;
 
   requestAnimationFrame(() => {
-    sectionEl.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' });
+    sectionEl.scrollIntoView({ behavior: "auto", block: "start", inline: "nearest" });
     requestAnimationFrame(() => {
       let rect = sectionEl.getBoundingClientRect();
 
       if (rect.top < margin) {
-        window.scrollBy({ top: rect.top - margin, behavior: 'auto' });
+        window.scrollBy({ top: rect.top - margin, behavior: "auto" });
         rect = sectionEl.getBoundingClientRect();
       }
 
       const overflowBottom = rect.bottom - (window.innerHeight - margin);
       if (overflowBottom > 0) {
-        window.scrollBy({ top: overflowBottom, behavior: 'auto' });
+        window.scrollBy({ top: overflowBottom, behavior: "auto" });
       }
     });
   });
 }
+
 function initTriggerWord() {
   const cfg = window.promptPageConfig || {};
   const trigger = cfg.triggerConfig || null;
@@ -60,12 +61,13 @@ function initTriggerWord() {
   const textarea = document.getElementById(mainFieldId);
   if (!input || !textarea || !template) return;
 
-  const token = trigger.token || "(your-trigger-word)";
   const placeholder = trigger.placeholder || "give your trigger word";
+  const defaultValue = trigger.defaultValue || trigger.default || placeholder;
+  const token = trigger.token || "(your-trigger-word)";
 
   const applyValue = () => {
     const entry = input.value.trim();
-    const replacement = entry || placeholder;
+    const replacement = entry || defaultValue;
     const updated = template.split(token).join(replacement);
     textarea.value = updated;
   };
@@ -73,6 +75,10 @@ function initTriggerWord() {
   input.addEventListener("input", applyValue);
   input._applyTriggerToPrompt = applyValue;
   input._targetPromptField = mainFieldId;
+  input._triggerDefault = defaultValue;
+  input._triggerToken = token;
+  input._triggerTemplate = template;
+  input.dataset.triggerDefault = defaultValue;
 
   applyValue();
 }
@@ -84,38 +90,41 @@ function copyPromptWithTrigger(inputId, fieldId) {
 
   const mainFieldId = fieldId || input._targetPromptField || cfg.mainFieldId || "content_main";
   const textarea = document.getElementById(mainFieldId);
+  const trigger = cfg.triggerConfig || {};
 
-  const value = input.value.trim();
+  const defaultValue = input._triggerDefault || trigger.defaultValue || trigger.default || trigger.placeholder || "give your trigger word";
+  const token = input._triggerToken || trigger.token || "(your-trigger-word)";
+  const template = input._triggerTemplate || cfg.promptTemplate || "";
+
+  let value = (input.value || "").trim();
+  if (!value && defaultValue) {
+    value = defaultValue;
+  }
+
   if (!value) {
-    showToast("Enter a trigger word first");
+    showToast("Please provide a value first");
     input.focus();
     return;
   }
 
   if (value !== input.value) {
     input.value = value;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+  } else if (typeof input._applyTriggerToPrompt === "function") {
+    input._applyTriggerToPrompt();
+  } else if (template) {
+    const updated = template.split(token).join(value);
+    if (textarea) textarea.value = updated;
   }
 
-  const template = cfg.promptTemplate || "";
-  const trigger = cfg.triggerConfig || {};
-  const token = trigger.token || "(your-trigger-word)";
-  const placeholder = trigger.placeholder || "give your trigger word";
-
-  let finalPrompt = "";
-  if (template) {
-    const replacement = value || placeholder;
-    finalPrompt = template.split(token).join(replacement);
-  } else if (textarea) {
-    finalPrompt = textarea.value || "";
+  let finalPrompt = textarea ? textarea.value : "";
+  if (!finalPrompt && template) {
+    finalPrompt = template.split(token).join(value);
   }
 
-  if (!finalPrompt.trim()) {
+  if (!finalPrompt || !finalPrompt.trim()) {
     showToast("Nothing to copy");
     return;
-  }
-
-  if (textarea && textarea.value !== finalPrompt) {
-    textarea.value = finalPrompt;
   }
 
   copyTextContent(finalPrompt, "Prompt copied!");
@@ -197,13 +206,10 @@ function copyIt(id) {
 
 let tid;
 function showToast(msg) {
-  const t = document.getElementById('toast');
+  const t = document.getElementById("toast");
   if (!t) return;
   if (msg) t.textContent = msg;
-  t.classList.add('show');
+  t.classList.add("show");
   clearTimeout(tid);
-  tid = setTimeout(() => t.classList.remove('show'), 1200);
+  tid = setTimeout(() => t.classList.remove("show"), 1200);
 }
-
-
-

@@ -6,5 +6,5 @@ collections:
     permalink: /prompts/:path/
 
 # permalink uses :path so subfolders like flux/ and kling/ generate
-# distinct URLs e.g. /prompts/flux/first-contact/
+# distinct URLs e.g. /prompts/flux/first-contact/flux 
 # https://wolfman30.github.io/ai-twin-prompts/prompts/
