@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card"{% if include.section_id %} id="{{ include.section_id }}"{% endif %}>
   <div class="header-row">
     <div class="title">{{ include.badge }}</div>
     <button class="copy-btn" type="button" onclick="copyIt('{{ include.field_id }}')" aria-label="Copy {{ include.badge }}">
@@ -10,3 +10,4 @@
   </div>
   <textarea id="{{ include.field_id }}" class="content" readonly>{{ include.text | strip }}</textarea>
 </div>
+

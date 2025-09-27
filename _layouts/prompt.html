@@ -14,7 +14,7 @@ layout: null
 </head>
 <body>
   <div class="center">
-    <button class="back-btn" onclick="goBack()">⬅️ Back</button>
+    <button class="back-btn" onclick="goBack()">??.?,? Back</button>
 
     <h1>{{ page.title }}</h1>
 
@@ -29,20 +29,22 @@ layout: null
     {%- endif -%}
 
     {% include prompt-box.html
-      badge   = badge_label
-      field_id = 'content_main'
-      text    = page.prompt
+      badge      = badge_label
+      field_id   = 'content_main'
+      text       = page.prompt
+      section_id = 'prompt-main'
     %}
 
     <!-- Negative only for Kling -->
     {% if page.type == 'kling' and page.negative_prompt %}
       {%- assign neg_badge = page.badge_negative | default: "Kling Negative Prompt" -%}
       {% include prompt-box.html
-        badge   = neg_badge
-        field_id = 'content_negative'
-        text    = page.negative_prompt
+        badge      = neg_badge
+        field_id   = 'content_negative'
+        text       = page.negative_prompt
+        section_id = 'prompt-negative'
       %}
-      <button class="back-btn" onclick="goBack()">⬅️ Back</button>
+      <button class="back-btn" onclick="goBack()">??.?,? Back</button>
     {% endif %}
   </div>
 

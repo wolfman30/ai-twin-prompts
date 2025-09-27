@@ -1,3 +1,37 @@
+function resolveTargetSectionId() {
+  const cfg = window.promptPageConfig || {};
+  if ((cfg.type || "").toLowerCase() !== "kling") return null;
+
+  const hash = (window.location.hash || "").replace(/^#/, "").toLowerCase();
+  if (hash === "negative" || hash === "kling-negative") return "prompt-negative";
+
+  const params = new URLSearchParams(window.location.search || "");
+  const querySection = (
+    params.get("section") ||
+    params.get("prompt") ||
+    params.get("target") ||
+    params.get("focus") ||
+    ""
+  ).toLowerCase();
+  if (querySection === "negative" || querySection === "kling-negative") return "prompt-negative";
+
+  const configSection = (cfg.defaultSection || cfg.focusSection || "").toLowerCase();
+  if (configSection === "negative" || configSection === "kling-negative") return "prompt-negative";
+
+  return null;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const sectionId = resolveTargetSectionId();
+  if (!sectionId) return;
+
+  const sectionEl = document.getElementById(sectionId);
+  if (!sectionEl) return;
+
+  requestAnimationFrame(() => {
+    sectionEl.scrollIntoView({ behavior: "auto", block: "start" });
+  });
+});
 function goBack() {
   const cfg = window.promptPageConfig || {};
 
@@ -59,3 +93,4 @@ function showToast(msg) {
   clearTimeout(tid);
   tid = setTimeout(() => t.classList.remove('show'), 1200);
 }
+
