@@ -28,11 +28,25 @@ function focusTargetSection() {
   const sectionEl = document.getElementById(sectionId);
   if (!sectionEl) return;
 
+  const margin = 32;
+
   requestAnimationFrame(() => {
-    sectionEl.scrollIntoView({ behavior: "auto", block: "start" });
+    sectionEl.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' });
+    requestAnimationFrame(() => {
+      let rect = sectionEl.getBoundingClientRect();
+
+      if (rect.top < margin) {
+        window.scrollBy({ top: rect.top - margin, behavior: 'auto' });
+        rect = sectionEl.getBoundingClientRect();
+      }
+
+      const overflowBottom = rect.bottom - (window.innerHeight - margin);
+      if (overflowBottom > 0) {
+        window.scrollBy({ top: overflowBottom, behavior: 'auto' });
+      }
+    });
   });
 }
-
 function initTriggerWord() {
   const cfg = window.promptPageConfig || {};
   const trigger = cfg.triggerConfig || null;
@@ -190,3 +204,6 @@ function showToast(msg) {
   clearTimeout(tid);
   tid = setTimeout(() => t.classList.remove('show'), 1200);
 }
+
+
+
