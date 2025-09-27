@@ -4,7 +4,10 @@ function goBack() {
   if (explicit) { window.location.href = explicit; return; }
 
   const ref = document.referrer;
-  if (ref && ref !== location.href) {
+  const isCanvaReferrer = ref && ref.includes('canva.com');
+  
+  // For non-Canva referrers, use history.back() if possible
+  if (ref && ref !== location.href && !isCanvaReferrer) {
     if (window.history.length > 1) {
       window.history.back();
     } else {
@@ -13,6 +16,7 @@ function goBack() {
     return;
   }
 
+  // For Canva referrers or no referrer, always use Canva deep link or base URL
   const canvaBase = "https://www.canva.com/design/DAGtoI-rTGs/suzi8xtrpeit_xpwmzWJgw/view?utm_content=DAGtoI-rTGs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he24d1b06e2#";
   const pageNum = body.dataset.canvaPage || '';
   const base = body.dataset.baseUrl || '';
