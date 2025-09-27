@@ -45,6 +45,7 @@ h1{
   border-radius:18px;
   box-shadow:0 20px 60px rgba(0,0,0,.35);
   padding:70px 20px 30px;
+  margin: 20px; 
 }
 .header-row{
   position:absolute;
