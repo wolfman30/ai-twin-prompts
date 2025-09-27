@@ -130,6 +130,27 @@ h1{
 .back-btn:hover { background: linear-gradient(135deg, rgba(35,40,70,0.95), rgba(15,18,32,0.95)); transform: translateY(-1px); }
 .back-btn:active { transform: translateY(1px); }
 
+/* Controls */
+.controls{
+  width:100%;
+  max-width:760px;
+  display:flex;
+  gap:12px;
+  align-items:flex-end;
+  justify-content:flex-start;
+  flex-wrap:wrap;
+}
+.ctrl{ display:flex; flex-direction:column; gap:6px; min-width:220px; }
+.ctrl > span{ font-size:14px; color:var(--muted); font-weight:600; }
+.ctrl input,.ctrl select{
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.25);
+  background: rgba(15,18,32,.8);
+  color: var(--text);
+  outline:none;
+}
+
 @media (max-width:480px){
   .content{font-size:15px}
   .title{font-size:16px}

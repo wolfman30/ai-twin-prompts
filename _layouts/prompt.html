@@ -18,6 +18,35 @@ layout: null
 
     <h1>{{ page.title }}</h1>
 
+    {%- assign show_trigger = false -%}
+    {%- if page.prompt and page.prompt contains '(your-trigger-word)' -%}{%- assign show_trigger = true -%}{%- endif -%}
+    {%- if page.negative_prompt and page.negative_prompt contains '(your-trigger-word)' -%}{%- assign show_trigger = true -%}{%- endif -%}
+
+    {%- assign show_gender = false -%}
+    {%- if page.prompt and page.prompt contains '(man or woman)' -%}{%- assign show_gender = true -%}{%- endif -%}
+    {%- if page.negative_prompt and page.negative_prompt contains '(man or woman)' -%}{%- assign show_gender = true -%}{%- endif -%}
+
+    {% if show_trigger or show_gender %}
+    <div class="controls" role="group" aria-label="Prompt customization controls">
+      {% if show_trigger %}
+      <label class="ctrl">
+        <span>Trigger word</span>
+        <input id="ctrl_trigger" type="text" inputmode="text" autocomplete="off" placeholder="Enter trigger word">
+      </label>
+      {% endif %}
+      {% if show_gender %}
+      <label class="ctrl">
+        <span>Gender term</span>
+        <select id="ctrl_gender">
+          <option value="">Choose…</option>
+          <option value="man">man</option>
+          <option value="woman">woman</option>
+        </select>
+      </label>
+      {% endif %}
+    </div>
+    {% endif %}
+
     <!-- Main (Flux or Kling main) -->
     {%- assign badge_label = page.badge_main -%}
     {%- if badge_label == nil or badge_label == "" -%}
@@ -69,6 +98,44 @@ layout: null
     // Otherwise force our known deep Canva link (keeps the #page)
     window.location.href = deepCanva;
 }
+
+  // --- Customization logic ---
+  (function(){
+    const main = document.getElementById('content_main');
+    const neg = document.getElementById('content_negative');
+    if (main && !main.dataset.original) main.dataset.original = (typeof main.value === 'string') ? main.value : (main.textContent || '');
+    if (neg && !neg.dataset.original) neg.dataset.original = (typeof neg.value === 'string') ? neg.value : (neg.textContent || '');
+
+    const triggerInput = document.getElementById('ctrl_trigger');
+    const genderSelect = document.getElementById('ctrl_gender');
+
+    function replaceAll(haystack, needle, replacement){
+      if (!haystack || !needle) return haystack;
+      return haystack.split(needle).join(replacement);
+    }
+
+    function applyCustomizations(){
+      const trigger = triggerInput ? (triggerInput.value || '') : '';
+      const gender = genderSelect ? (genderSelect.value || '') : '';
+
+      if (main && main.dataset.original){
+        let t = main.dataset.original;
+        if (gender) t = replaceAll(t, '(man or woman)', gender);
+        if (trigger) t = replaceAll(t, '(your-trigger-word)', trigger);
+        main.value = t;
+      }
+      if (neg && neg.dataset.original){
+        let t = neg.dataset.original;
+        if (gender) t = replaceAll(t, '(man or woman)', gender);
+        if (trigger) t = replaceAll(t, '(your-trigger-word)', trigger);
+        neg.value = t;
+      }
+    }
+
+    if (triggerInput) triggerInput.addEventListener('input', applyCustomizations);
+    if (genderSelect) genderSelect.addEventListener('change', applyCustomizations);
+    applyCustomizations();
+  })();
 
   async function copyIt(id){
     const el = document.getElementById(id);
