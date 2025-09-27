@@ -14,10 +14,10 @@ function goBack() {
 
   if (!isCanva && ref && ref !== location.href && window.history.length > 1) {
     window.history.back();
-  } else {
-    // Ensure a reliable fallback URL
-    window.location.href = deepCanva;
-  }
+    return; 
+  }     
+  window.location.href = deepCanva;
+  
 }
 
 async function copyIt(id) {
