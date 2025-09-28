@@ -7,7 +7,7 @@ canva_page: 6
 trigger_field:
   id: kling-subject-input
   label: Character Descriptor
-  placeholder: "type the subject descriptor"
+  placeholder: "give your gender - man or woman"
   default: "man or woman"
   copy_label: Copy Prompt
   token: "(man or woman)"
