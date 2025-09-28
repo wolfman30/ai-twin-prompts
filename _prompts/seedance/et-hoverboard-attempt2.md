@@ -12,8 +12,8 @@ trigger_field:
   copy_label: Copy Prompt
   token: "(man or woman)"
 prompt: |
-    A (man or woman) stands confidently on a sleek, glowing alien hoverboard as it begins to accelerate smoothly down a misty forest path. The board emits a soft hum and leaves behind faint streaks of violet light as it moves rapidly along the linear perspective of the terrain. The man’s posture is steady and natural, knees slightly bent, with arms subtly adjusting for balance. As he glides forward, the surrounding foliage blurs slightly to emphasize speed. Purple mist swirls dramatically in his wake, illuminated by the hoverboard’s underlight. The man looks ahead with calm focus and anticipation as he’s swiftly transported off screen. Natural and realistic motion throughout.
+  In a glowing forest clearing, a (man or woman) stands before a large floating neon “200” made of radiant magenta light. As he reaches out and touches the number, it instantly reacts—splitting apart in natural and realistic motion into hundreds of tiny glowing fragments that swirl around him like intelligent fireflies. The fragments form a vibrant holographic celebration: spirals of alien symbols, shimmering data streams, and bursts of luminous fractal geometry all synchronized in joyful motion. The ground briefly lights up with glowing circuits, forming a large alien emblem beneath him. The man’s eyes widen and he laughs with genuine delight, clearly surprised and honored by the display—a congratulatory experience designed by the alien civilization guiding his transformation. Natural and realistic motion throughout.
 
 
-    NONE OF THE FOLLOWING: cartoony motion, slow motion, stiff legs, awkward posture, robotic gliding, jerky acceleration, glowing errors, pixelation, blank expression, floating glitches, motion blur, unnatural hoverboard movement
+  NONE OF THE FOLLOWING: cartoony motion, slow motion, stiff finger tap, blank face, flickering glow, glitchy number effect, pixelation, robotic hand movement, disconnected particles, harsh light burst, jitter, awkward animation
 ---
