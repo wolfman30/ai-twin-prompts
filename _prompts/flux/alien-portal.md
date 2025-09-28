@@ -3,7 +3,7 @@ layout: prompt
 type: flux
 title: Alien Portal - Stepping Through the Wormhole
 badge_main: Flux Prompt
-canva_page: 6
+canva_page: 7
 trigger_field:
   id: trigger-word-input
   label: Trigger Word

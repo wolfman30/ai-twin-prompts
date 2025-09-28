@@ -3,7 +3,7 @@ layout: prompt
 type: kling
 title: Alien Portal - Stepping Through the Wormhole
 badge_main: Kling Prompt
-canva_page: 6
+canva_page: 7
 trigger_field:
   id: kling-subject-input
   label: Character Descriptor
