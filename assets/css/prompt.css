@@ -4,6 +4,7 @@
   --bg1:#a855f7; --bg2:#ec4899;
   --text:#e6e7ef; --muted:#aeb1c5;
   --glass1: rgba(15,18,32,.9); --glass2: rgba(15,18,32,.7);
+  --seedance-highlight: linear-gradient(135deg, rgba(59,130,246,0.35), rgba(96,165,250,0.45));
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;padding:0}
@@ -25,9 +26,9 @@ body{
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:{% if page.type == 'kling' %}flex-start{% else %}center{% endif %};
-  padding:{% if page.type == 'kling' %}40px 20px{% else %}20px{% endif %};
-  gap:{% if page.type == 'kling' %}30px{% else %}0{% endif %};
+  justify-content:{% if page.type == 'kling' or page.type == 'seedance' %}flex-start{% else %}center{% endif %};
+  padding:{% if page.type == 'kling' or page.type == 'seedance' %}40px 20px{% else %}20px{% endif %};
+  gap:{% if page.type == 'kling' or page.type == 'seedance' %}30px{% else %}0{% endif %};
 }
 h1{
   font-size:2.5rem;
@@ -153,6 +154,10 @@ h1{
   color:#fff;
   font-weight:600;
 }
+.highlight-token.seedance{
+  background: var(--seedance-highlight);
+  color:#0b1220;
+}
 .toast{
   position:fixed;
   bottom:24px;
@@ -190,8 +195,14 @@ h1{
 @media (max-width:480px){
   .content{font-size:15px}
   .title{font-size:16px}
-  h1{font-size:{% if page.type == 'kling' %}1.8rem{% else %}2rem{% endif %}}
+  h1{font-size:{% if page.type == 'kling' or page.type == 'seedance' %}1.8rem{% else %}2rem{% endif %}}
   .trigger-controls{flex-direction:column;align-items:stretch}
   .trigger-copy{width:100%}
 }
+
+
+
+
+
+
 

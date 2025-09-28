@@ -52,9 +52,13 @@ layout: null
       section_id = 'prompt-main'
     %}
 
-    <!-- Negative only for Kling -->
-    {% if page.type == 'kling' and page.negative_prompt %}
-      {%- assign neg_badge = page.badge_negative | default: "Kling Negative Prompt" -%}
+    <!-- Negative only for Kling/Seedance -->
+    {% if (page.type == 'kling' or page.type == 'seedance') and page.negative_prompt %}
+      {%- assign __neg_default = 'Kling Negative Prompt' -%}
+      {%- if page.type == 'seedance' -%}
+        {%- assign __neg_default = 'Seedance Negative Prompt' -%}
+      {%- endif -%}
+      {%- assign neg_badge = page.badge_negative | default: __neg_default -%}
       {% include prompt-box.html
         badge      = neg_badge
         field_id   = 'content_negative'
@@ -92,6 +96,7 @@ layout: null
   <script src="{{ '/assets/js/prompt.js' | relative_url }}"></script>
 </body>
 </html>
+
 
 
 

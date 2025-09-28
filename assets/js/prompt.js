@@ -1,9 +1,10 @@
 function resolveTargetSectionId() {
   const cfg = window.promptPageConfig || {};
-  if ((cfg.type || "").toLowerCase() !== "kling") return null;
+  const pageType = (cfg.type || "").toLowerCase();
+  if (pageType !== "kling" && pageType !== "seedance") return null;
 
   const hash = (window.location.hash || "").replace(/^#/, "").toLowerCase();
-  if (hash === "negative" || hash === "kling-negative") return "prompt-negative";
+  if (hash === "negative" || hash === "kling-negative" || hash === "seedance-negative") return "prompt-negative";
 
   const params = new URLSearchParams(window.location.search || "");
   const querySection = (
@@ -13,10 +14,10 @@ function resolveTargetSectionId() {
     params.get("focus") ||
     ""
   ).toLowerCase();
-  if (querySection === "negative" || querySection === "kling-negative") return "prompt-negative";
+  if (querySection === "negative" || querySection === "kling-negative" || querySection === "seedance-negative") return "prompt-negative";
 
   const configSection = (cfg.defaultSection || cfg.focusSection || "").toLowerCase();
-  if (configSection === "negative" || configSection === "kling-negative") return "prompt-negative";
+  if (configSection === "negative" || configSection === "kling-negative" || configSection === "seedance-negative") return "prompt-negative";
 
   return null;
 }
@@ -49,7 +50,7 @@ function focusTargetSection() {
 }
 
 function escapeHtml(str) {
-  return (str || "").replace(/[&<>\"']/g, (ch) => ({
+  return (str || "").replace(/[&<>"']/g, (ch) => ({
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
@@ -57,14 +58,16 @@ function escapeHtml(str) {
     "'": "&#39;"
   })[ch]);
 }
-
 function escapeRegex(str) {
   return (str || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function setPromptDisplay(fieldId, text, highlightValue) {
+function setPromptDisplay(fieldId, text, highlightValue, cfg) {
   const display = document.getElementById(`${fieldId}__display`);
   if (!display) return;
+
+  const pageType = (cfg && cfg.type ? String(cfg.type) : "").toLowerCase();
+  const tokenClass = pageType === "seedance" ? "highlight-token seedance" : "highlight-token";
 
   let html = escapeHtml(text || "");
   const highlight = highlightValue || "";
@@ -72,7 +75,7 @@ function setPromptDisplay(fieldId, text, highlightValue) {
   if (highlight) {
     const pattern = escapeRegex(highlight);
     if (pattern) {
-      const highlightHtml = `<span class="highlight-token">${escapeHtml(highlight)}</span>`;
+      const highlightHtml = `<span class="${tokenClass}">${escapeHtml(highlight)}</span>`;
       html = html.replace(new RegExp(pattern, "g"), highlightHtml);
     }
   }
@@ -83,29 +86,37 @@ function setPromptDisplay(fieldId, text, highlightValue) {
 function initTriggerWord() {
   const cfg = window.promptPageConfig || {};
   const trigger = cfg.triggerConfig || null;
+  const mainFieldId = cfg.mainFieldId || "content_main";
+  const textarea = document.getElementById(mainFieldId);
+  const baseTemplate = cfg.promptTemplate || (textarea ? textarea.value : "");
+
+  if (textarea && !textarea.value) {
+    textarea.value = baseTemplate;
+  }
+
   if (!trigger) {
-    setPromptDisplay(cfg.mainFieldId || "content_main", (document.getElementById(cfg.mainFieldId || "content_main") || {}).value || "");
+    setPromptDisplay(mainFieldId, textarea ? textarea.value : baseTemplate, null, cfg);
     return;
   }
 
-  const template = cfg.promptTemplate || "";
-  const mainFieldId = cfg.mainFieldId || "content_main";
   const triggerId = trigger.id || "trigger-word-input";
-
   const input = document.getElementById(triggerId);
-  const textarea = document.getElementById(mainFieldId);
-  if (!input || !textarea || !template) return;
+  if (!input) {
+    setPromptDisplay(mainFieldId, textarea ? textarea.value : baseTemplate, null, cfg);
+    return;
+  }
 
   const placeholder = trigger.placeholder || "give your trigger word";
   const defaultValue = trigger.defaultValue || trigger.default || placeholder;
   const token = trigger.token || "(your-trigger-word)";
 
   const applyValue = () => {
-    const entry = input.value.trim();
+    const entry = (input.value || "").trim();
     const replacement = entry || defaultValue;
-    const updated = template.split(token).join(replacement);
-    textarea.value = updated;
-    setPromptDisplay(mainFieldId, updated, replacement);
+    const source = input._triggerTemplateBase || baseTemplate;
+    const updated = source ? source.split(token).join(replacement) : replacement;
+    if (textarea) textarea.value = updated;
+    setPromptDisplay(mainFieldId, updated, replacement, cfg);
   };
 
   input.addEventListener("input", applyValue);
@@ -113,12 +124,10 @@ function initTriggerWord() {
   input._targetPromptField = mainFieldId;
   input._triggerDefault = defaultValue;
   input._triggerToken = token;
-  input._triggerTemplate = template;
-  input.dataset.triggerDefault = defaultValue;
+  input._triggerTemplateBase = baseTemplate;
 
   applyValue();
 }
-
 function copyPromptWithTrigger(inputId, fieldId) {
   const cfg = window.promptPageConfig || {};
   const input = document.getElementById(inputId);
@@ -130,12 +139,10 @@ function copyPromptWithTrigger(inputId, fieldId) {
 
   const defaultValue = input._triggerDefault || trigger.defaultValue || trigger.default || trigger.placeholder || "give your trigger word";
   const token = input._triggerToken || trigger.token || "(your-trigger-word)";
-  const template = input._triggerTemplate || cfg.promptTemplate || "";
+  const baseTemplate = input._triggerTemplateBase || cfg.promptTemplate || (textarea ? textarea.value : "");
 
   let value = (input.value || "").trim();
-  if (!value && defaultValue) {
-    value = defaultValue;
-  }
+  if (!value && defaultValue) value = defaultValue;
 
   if (!value) {
     showToast("Please provide a value first");
@@ -148,24 +155,18 @@ function copyPromptWithTrigger(inputId, fieldId) {
     input.dispatchEvent(new Event("input", { bubbles: true }));
   } else if (typeof input._applyTriggerToPrompt === "function") {
     input._applyTriggerToPrompt();
-  } else if (template && textarea) {
-    const updated = template.split(token).join(value);
-    textarea.value = updated;
-    setPromptDisplay(mainFieldId, updated, value);
   }
 
-  let finalPrompt = textarea ? textarea.value : "";
-  if (!finalPrompt && template) {
-    finalPrompt = template.split(token).join(value);
-  }
+  const updated = baseTemplate ? baseTemplate.split(token).join(value) : value;
+  if (textarea) textarea.value = updated;
+  setPromptDisplay(mainFieldId, updated, value, cfg);
 
-  if (!finalPrompt || !finalPrompt.trim()) {
+  if (!updated.trim()) {
     showToast("Nothing to copy");
     return;
   }
 
-  setPromptDisplay(mainFieldId, finalPrompt, value);
-  copyTextContent(finalPrompt, "Prompt copied!");
+  copyTextContent(updated, "Prompt copied!");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -175,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initializeStaticDisplays() {
+  const cfg = window.promptPageConfig || {};
   const inputs = document.querySelectorAll('.content-input');
   inputs.forEach((ta) => {
     const id = ta.id;
@@ -182,10 +184,9 @@ function initializeStaticDisplays() {
     const display = document.getElementById(`${id}__display`);
     if (!display) return;
     if (display.innerHTML && display.innerHTML.trim()) return;
-    setPromptDisplay(id, ta.value || "");
+    setPromptDisplay(id, ta.value || "", null, cfg);
   });
 }
-
 function goBack() {
   const cfg = window.promptPageConfig || {};
 
@@ -264,3 +265,4 @@ function showToast(msg) {
   clearTimeout(tid);
   tid = setTimeout(() => t.classList.remove("show"), 1200);
 }
+
