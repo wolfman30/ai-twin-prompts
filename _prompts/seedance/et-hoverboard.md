@@ -3,7 +3,7 @@ layout: prompt
 type: seedance
 title: Extraterrestrial Hoverboard
 badge_main: Seedance Prompt
-canva_page: 7
+canva_page: 8
 trigger_field:
   id: seedance-subject-input
   label: Gender
