@@ -8,6 +8,6 @@
       </svg> Copy
     </button>
   </div>
-  <textarea id="{{ include.field_id }}" class="content" readonly>{{ include.text | strip }}</textarea>
+  <textarea id="{{ include.field_id }}" class="content content-input" readonly aria-hidden="true">{{ include.text | strip }}</textarea>
+  <pre id="{{ include.field_id }}__display" class="content content-display" tabindex="0">{{ include.text | strip | escape }}</pre>
 </div>
-

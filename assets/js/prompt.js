@@ -48,10 +48,45 @@ function focusTargetSection() {
   });
 }
 
+function escapeHtml(str) {
+  return (str || "").replace(/[&<>\"']/g, (ch) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[ch]);
+}
+
+function escapeRegex(str) {
+  return (str || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function setPromptDisplay(fieldId, text, highlightValue) {
+  const display = document.getElementById(`${fieldId}__display`);
+  if (!display) return;
+
+  let html = escapeHtml(text || "");
+  const highlight = highlightValue || "";
+
+  if (highlight) {
+    const pattern = escapeRegex(highlight);
+    if (pattern) {
+      const highlightHtml = `<span class="highlight-token">${escapeHtml(highlight)}</span>`;
+      html = html.replace(new RegExp(pattern, "g"), highlightHtml);
+    }
+  }
+
+  display.innerHTML = html;
+}
+
 function initTriggerWord() {
   const cfg = window.promptPageConfig || {};
   const trigger = cfg.triggerConfig || null;
-  if (!trigger) return;
+  if (!trigger) {
+    setPromptDisplay(cfg.mainFieldId || "content_main", (document.getElementById(cfg.mainFieldId || "content_main") || {}).value || "");
+    return;
+  }
 
   const template = cfg.promptTemplate || "";
   const mainFieldId = cfg.mainFieldId || "content_main";
@@ -70,6 +105,7 @@ function initTriggerWord() {
     const replacement = entry || defaultValue;
     const updated = template.split(token).join(replacement);
     textarea.value = updated;
+    setPromptDisplay(mainFieldId, updated, replacement);
   };
 
   input.addEventListener("input", applyValue);
@@ -112,9 +148,10 @@ function copyPromptWithTrigger(inputId, fieldId) {
     input.dispatchEvent(new Event("input", { bubbles: true }));
   } else if (typeof input._applyTriggerToPrompt === "function") {
     input._applyTriggerToPrompt();
-  } else if (template) {
+  } else if (template && textarea) {
     const updated = template.split(token).join(value);
-    if (textarea) textarea.value = updated;
+    textarea.value = updated;
+    setPromptDisplay(mainFieldId, updated, value);
   }
 
   let finalPrompt = textarea ? textarea.value : "";
@@ -127,13 +164,27 @@ function copyPromptWithTrigger(inputId, fieldId) {
     return;
   }
 
+  setPromptDisplay(mainFieldId, finalPrompt, value);
   copyTextContent(finalPrompt, "Prompt copied!");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   focusTargetSection();
   initTriggerWord();
+  initializeStaticDisplays();
 });
+
+function initializeStaticDisplays() {
+  const inputs = document.querySelectorAll('.content-input');
+  inputs.forEach((ta) => {
+    const id = ta.id;
+    if (!id) return;
+    const display = document.getElementById(`${id}__display`);
+    if (!display) return;
+    if (display.innerHTML && display.innerHTML.trim()) return;
+    setPromptDisplay(id, ta.value || "");
+  });
+}
 
 function goBack() {
   const cfg = window.promptPageConfig || {};

@@ -6,7 +6,7 @@ badge_main: Kling Prompt
 canva_page: 8
 trigger_field:
   id: kling-subject-input
-  label: Character Descriptor
+  label: Gender
   placeholder: "give your gender - man or woman"
   default: "man or woman"
   copy_label: Copy Prompt
