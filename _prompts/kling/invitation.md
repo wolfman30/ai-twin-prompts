@@ -1,7 +1,7 @@
 ---
 layout: prompt
 type: kling
-title: My Alien Host - First Contact
+title: The Invitation
 badge_main: Kling Prompt
 canva_page: 6
 trigger_field:
