@@ -3,7 +3,7 @@ layout: prompt
 type: kling
 title: River of Stars 1
 badge_main: Kling Prompt
-canva_page: 7
+canva_page: 12
 trigger_field:
   id: kling-subject-input
   label: Gender
