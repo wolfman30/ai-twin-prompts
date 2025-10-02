@@ -17,6 +17,6 @@ prompt: |
   On contact, the symbol pulses and unfolds into a multi-layered holographic interface with animated alien glyphs, star clusters, molecular diagrams, and shifting geometries. Streams of luminous data arc around his upper body, synchronizing with his presence. A glowing ring briefly encircles his head while bursts of intelligent light ripple across his face and eyes, signaling knowledge transfer.
 
   His eyes widen and he exhales with visible amazement and quiet understanding. The entire motion remains natural and realistic, captured at 1× speed with cinematic clarity.
-negative_prompt: |
-  cartoony motion, slow motion, stiff hand movement, blank stare, flickering hologram, robotic posture, jerky activation, glitching interface, pixelation, glowing errors, unrealistic light behavior
+  
+  Avoid: cartoony motion, slow motion, stiff hand movement, blank stare, flickering hologram, robotic posture, jerky activation, glitching interface, pixelation, glowing errors, unrealistic light behavior
 ---
