@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1), rendered hyperrealistically in a vertical 9:16 frame, kneels on one knee in the center of a lush, muddy rainforest trail moments after rainfall.
 

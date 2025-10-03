@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     In a glowing rainforest alcove, (your-trigger-word:1) stands waist-up in frame, angled three-quarters toward camera, wearing a plain dark blue T-shirt. Teal-and-magenta vines pulse softly behind him, their light sculpting his silhouette with hyperreal clarity reminiscent of a grounded 50mm capture.
 

@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1), a human male in his late 30s with a calm, focused expression, stands centered in a hyperreal vertical 9:16 frame amid a bioluminescent rainforest at night.
 

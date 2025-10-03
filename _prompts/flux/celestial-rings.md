@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1), rendered as a hyperrealistic vertical 9:16 portrait, stands beneath towering violet jungle trees where bioluminescent dew clings to every fern.
 

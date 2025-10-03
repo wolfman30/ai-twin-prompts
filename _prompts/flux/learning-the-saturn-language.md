@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1) in a hyperrealistic 9:16 vertical scene, captured from chest-up in sharp cinematic detail, standing in a mist-draped rainforest clearing filled with glowing bioluminescent leaves and violet canopy light. He wears a plain dark blue T-shirt, his face fully visible, eyes wide and jaw slightly parted in a look of genuine awe and quiet curiosity.
 

@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
   (your-trigger-word:1) stands before an ancient alien tree whose bark is etched with glowing violet circuitry, bioluminescent mist curling through the rainforest around him.
 

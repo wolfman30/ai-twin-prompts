@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1) fills a hyperrealistic 9:16 frame, captured waist-up in a twilight rainforest clearing beneath towering bioluminescent flora.
 

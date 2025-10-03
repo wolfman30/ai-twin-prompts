@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     In a rainforest gorge veiled with waterfalls and twisted vines, (your-trigger-word:1) activates a crystalline teal obelisk embedded within ancient roots.
 

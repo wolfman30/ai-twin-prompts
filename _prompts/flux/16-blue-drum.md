@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1) stands in a rainforest grotto shrouded in indigo mist, fitted dark blue T-shirt catching stray droplets as alien bioluminescence glows overhead.
 

@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     In the heart of a lush rainforest ravine, (your-trigger-word:1) kneels on mossy stone surrounded by towering, dew-soaked trunks and dripping teal ferns.
 
