@@ -13,7 +13,7 @@ trigger_field:
   token: "(man or woman)"
 prompt: |
 
-  A hyperrealistic 9:16 vertical cinematic video of aiwolfunique standing in a misty tropical forest, wearing a fitted dark t-shirt. He stands in side profile, holding his hand out in front of him with his palm open. Floating just above his hand is a glowing neon teal “3K” hologram, softly flickering like advanced alien technology.
+  A hyperrealistic 9:16 vertical cinematic video of (a man or woman) standing in a misty tropical forest, wearing a fitted dark t-shirt. He stands in side profile, holding his hand out in front of him with his palm open. Floating just above his hand is a glowing neon teal “3K” hologram, softly flickering like advanced alien technology.
 
   The video begins with him gazing at the “3K” in appreciation. Then, in one smooth, deliberate motion, he lifts his hand upward, and the “3K” follows — pushed into the air like it’s weightless and digital, rising with a subtle particle trail, magnetic shimmer, or rotating glyph ring as it ascends. It lingers mid-air as a symbol of breakthrough.
 
