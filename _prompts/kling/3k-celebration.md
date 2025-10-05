@@ -13,11 +13,13 @@ trigger_field:
   token: "(man or woman)"
 prompt: |
 
-  A hyperrealistic 9:16 vertical cinematic video of a clean-shaven (man or woman) standing in a misty tropical forest, wearing a fitted dark T-shirt. Shot from a natural side profile, they hold one hand out with the palm open while a neon teal “3K” hologram floats just above it, softly flickering like advanced alien technology.
+  A hyperrealistic 9:16 vertical cinematic video of aiwolfunique standing in a misty tropical forest, wearing a fitted dark t-shirt. He stands in side profile, holding his hand out in front of him with his palm open. Floating just above his hand is a glowing neon teal “3K” hologram, softly flickering like advanced alien technology.
 
-  The moment begins with them admiring the hologram. In one smooth, intentional motion they raise their hand, and the “3K” ascends with them—weightless and digital—leaving behind a subtle particle trail, magnetic shimmer, or rotating glyph ring as it rises to linger mid-air.
+  The video begins with him gazing at the “3K” in appreciation. Then, in one smooth, deliberate motion, he lifts his hand upward, and the “3K” follows — pushed into the air like it’s weightless and digital, rising with a subtle particle trail, magnetic shimmer, or rotating glyph ring as it ascends. It lingers mid-air as a symbol of breakthrough.
 
-  Their expression is calm yet proud, a quiet celebration of growth. The camera eases in with a gentle zoom or pan to emphasise the ritual, while teal and indigo light glows through soft fog and cinematic shadows. The scene feels grounded and real, like footage from an iPhone Pro Max 16, delivering believable sci-fi realism with emotional weight. Natural and realistic motion throughout.
+  His expression is calm but proud — a quiet celebration of growth. The camera slowly zooms or pans to emphasize the moment. The rainforest glows faintly in teal and indigo, with soft fog and cinematic shadows. The visual style must feel real and grounded, like it was filmed on an iPhone Pro Max 16 — no CGI look, no cartoon styling, just believable sci-fi realism with emotional weight.
+
+  This moment should feel like a futuristic ritual — marking a milestone not with noise, but with intention.
 
 negative_prompt: |
   avoid facial hair, avoid visual glitches, no glitch effects, no exaggerated glow, avoid unrealistic lighting, avoid cartoon or anime styles, no artificial textures, no pixelation, no motion distortion, avoid plastic or overly smoothed skin, maintain natural proportions, no surreal or CGI appearance, avoid unnatural overlays or filters, ensure realistic movement and resolution
