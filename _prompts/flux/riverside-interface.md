@@ -1,7 +1,7 @@
 ---
 layout: prompt
 type: flux
-title: 2 Riverside Interface
+title: Riverside Interface
 badge_main: Flux Prompt
 canva_page: 36
 trigger_field:

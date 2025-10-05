@@ -1,7 +1,7 @@
 ---
 layout: prompt
 type: kling
-title: 2 Riverside Interface
+title: Riverside Interface
 badge_main: Kling Prompt
 canva_page: 36
 trigger_field:
