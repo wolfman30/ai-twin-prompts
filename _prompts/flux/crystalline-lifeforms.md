@@ -10,11 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
-  (your-trigger-word:1) stands before an ancient alien tree whose bark is etched with glowing violet circuitry, bioluminescent mist curling through the rainforest around him.
-
-    Dressed in a snug dark blue T-shirt, he gazes upward with amazement as the tree projects cascades of floating magenta and teal holograms that spill light across his face and outstretched hands.
-
-    The vertical 9:16 frame captures hyperreal detail in the circuitry, drifting particles, and the wonder-lit expression that anchors this fusion of nature and alien technology.
+  (your-trigger-word:1) standing before an ancient alien tree, its bark etched with glowing violet circuitry. In a snug dark blue t-shirt, he gazes up with an amazed expression as the tree projects a cascade of floating holograms in magenta and teal that illuminate his face in wonder.
 ---

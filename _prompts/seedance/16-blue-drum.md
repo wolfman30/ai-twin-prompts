@@ -17,6 +17,6 @@ prompt: |
   He taps the surface rhythmically like a drum. Each strike releases cascading waves of light and sound—natural, realistic ripples that fill the space. Intricate holographic patterns erupt: floating symbols, audio-reactive visuals, and rotating alien interfaces spinning midair.
 
   The man smiles and laughs, fully immersed in the experience. Projected patterns illuminate his shirt in sync with each beat while pulses of colored light sweep across his face and chest. The entire performance remains smooth, grounded, and cinematic at 1× speed.
-negative_prompt: |
-  cartoony motion, slow motion, stiff drumming, flickering lights, glowing errors, robotic facial expression, blank reaction, pixelation, projection not syncing to taps, jitter, harsh color changes
+  
+  Avoid: cartoony motion, slow motion, stiff drumming, flickering lights, glowing errors, robotic facial expression, blank reaction, pixelation, projection not sokayyncing to taps, jitter, harsh color changes
 ---

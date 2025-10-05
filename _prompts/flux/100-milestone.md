@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1), rendered in a hyperrealistic vertical 9:16 frame, stands waist-up in a mist-draped tropical rainforest glowing with bioluminescent indigo, violet, and teal plants.
 

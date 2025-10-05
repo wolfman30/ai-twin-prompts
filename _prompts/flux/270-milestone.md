@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1), a hyperrealistic 9:16 vertical portrait captured waist-up in a mist-soaked rainforest clearing teeming with bioluminescent foliage and towering alien-modified trees.
 

@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1) walks beneath gigantic alien mushroom-like trees whose undersides glow in magenta and indigo, casting radial light patterns across his fitted dark blue shirt.
 

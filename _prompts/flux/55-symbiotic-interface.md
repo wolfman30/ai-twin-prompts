@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     In a bioluminescent rainforest hollow, (your-trigger-word:1) stands before a sleek alien console fused into the trunk of a towering tree, the device projecting a translucent floating interface at arm’s length. A plain dark blue T-shirt hugs his frame while violet-blue light pours from the console, defining every contour with ultra-sharp clarity reminiscent of a 50mm lens capture.
 

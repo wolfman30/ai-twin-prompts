@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1), captured as a hyperrealistic vertical 9:16 image, stands deep within a dense, mist-laden rainforest awash in magenta, indigo, and violet glow.
 

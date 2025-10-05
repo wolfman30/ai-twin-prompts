@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1) stands in a hyperrealistic vertical 9:16 frame beneath a dense rainforest canopy soaked with fresh rain, mist curling around colossal tree trunks and fern-laden vines.
 

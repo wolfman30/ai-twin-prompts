@@ -10,9 +10,9 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
-    (your-trigger-word:1), hyperrealistic vertical 9:16 image of (your-trigger-word) standing in a secluded rainforest clearing just after rainfall. The air is thick with mist, and the scene glows with cool cinematic tones—indigo, magenta, and deep teal blending into fog, wet foliage, and shallow pools reflecting twilight light.
+    (your-trigger-word:1), hyperrealistic vertical 9:16 image of your-trigger-word standing in a secluded rainforest clearing just after rainfall. The air is thick with mist, and the scene glows with cool cinematic tones—indigo, magenta, and deep teal blending into fog, wet foliage, and shallow pools reflecting twilight light.
 
     He holds a glowing, translucent orb about the size of a coconut gently in both hands at chest level, angled so that the soft violet and ice-blue glow lights up the lower part of his face. His head is tilted slightly downward but turned three-quarters toward the camera, allowing a clear, natural view of his full face — lit from below by the orb. His expression is calm and quietly awed, with a subtle smile and soft eyes. He is engaged with the orb, not the viewer — inviting interest without seeking attention.
 

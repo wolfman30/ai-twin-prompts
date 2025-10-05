@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1) stands beneath an enormous alien satellite dish camouflaged within the rainforest canopy, a fitted dark blue T-shirt catching glints of refracted moonlight.
 

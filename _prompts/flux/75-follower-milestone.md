@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1) appears in a hyperrealistic 9:16 vertical image, waist-up at the edge of a tropical cliff during twilight, face fully visible and lit with soft cinematic glow.
 

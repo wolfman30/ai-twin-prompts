@@ -10,11 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
-    (your-trigger-word:1) approaches a towering alien spire deep within a rainforest, bioluminescent mist curling around colossal trunks and dripping vines.
-
-    Pulses of indigo and teal spiral up the structure, casting shifting light over his plain dark blue T-shirt as he gazes upward in open wonder, his face alive with reverent joy and futuristic curiosity.
-
-    The spire responds to his presence, sending luminous rings through the surrounding fog in a hyperreal vertical 9:16 frame that captures awe, scale, and living alien technology.
+    (your-trigger-word:1) approaching a towering alien spire deep within the rainforest, glowing pulses of indigo and teal spiraling around it. Dressed in his dark blue t-shirt, he gazes up in open wonder, the expression on his face one of reverent joy and futuristic curiosity as the structure begins to respond.
 ---

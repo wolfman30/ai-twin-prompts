@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1), a short-haired athletic man, stands centered in a hyperreal vertical 9:16 frame deep within a dense, misty rainforest bathed in magenta, indigo, and violet light.
 

@@ -10,7 +10,7 @@ trigger_field:
   placeholder: "give your trigger word"
   default: "your trigger word"
   copy_label: Copy Prompt
-  token: "(your-trigger-word)"
+  token: "your-trigger-word"
 prompt: |
     (your-trigger-word:1), a contemplative man in his early 30s wearing a fitted dark blue T-shirt, stands centered in a hyperreal 9:16 vertical frame within a mist-laced tropical rainforest.
 
