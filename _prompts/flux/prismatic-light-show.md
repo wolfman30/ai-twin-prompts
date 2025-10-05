@@ -1,7 +1,7 @@
 ---
 layout: prompt
 type: flux
-title: 3 Prismatic Light Show
+title: Prismatic Light Show
 badge_main: Flux Prompt
 canva_page: 37
 trigger_field:
