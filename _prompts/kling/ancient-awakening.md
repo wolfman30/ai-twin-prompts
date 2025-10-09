@@ -1,7 +1,7 @@
 ---
 layout: prompt
 type: kling
-title: 5 Ancient Awakening
+title: Ancient Awakening
 badge_main: Kling Prompt
 canva_page: 38
 trigger_field:
