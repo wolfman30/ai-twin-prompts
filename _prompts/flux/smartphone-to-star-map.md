@@ -1,7 +1,7 @@
 ---
 layout: prompt
 type: flux
-title: 7 Smartphone to Star Map
+title: Smartphone to Star Map
 badge_main: Flux Prompt
 canva_page: 39
 trigger_field:
