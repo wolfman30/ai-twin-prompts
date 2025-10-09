@@ -1,7 +1,7 @@
 ---
 layout: prompt
 type: kling
-title: 7 Smartphone to Star Map
+title: Smartphone to Star Map
 badge_main: Kling Prompt
 canva_page: 39
 trigger_field:
